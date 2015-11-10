@@ -6,7 +6,7 @@ public class ListNodeUtils {
         throw new AssertionError("utility class, forbidden constructor");
     }
 
-    static ListNode create(int... values) {
+    public static ListNode create(int... values) {
         if (values.length == 0) {
             return null;
         }
