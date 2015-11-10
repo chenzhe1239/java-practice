@@ -1,6 +1,11 @@
 package com.janosgyerik.practice.oj.leetcode.common;
 
 public class ListNodeUtils {
+
+    private ListNodeUtils() {
+        throw new AssertionError("utility class, forbidden constructor");
+    }
+
     static ListNode create(int... values) {
         if (values.length == 0) {
             return null;
