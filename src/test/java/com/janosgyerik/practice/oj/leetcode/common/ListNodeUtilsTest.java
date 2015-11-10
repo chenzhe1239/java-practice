@@ -10,4 +10,22 @@ public class ListNodeUtilsTest {
     public void test_create_empty() {
         assertEquals(null, create());
     }
+
+    @Test
+    public void test_create_singleton() {
+        int value = 3;
+        ListNode head = create(value);
+        assertEquals(value, head.val);
+        assertEquals(null, head.next);
+    }
+
+    @Test
+    public void test_create_with_2_items() {
+        int value1 = 3;
+        int value2 = 5;
+        ListNode head = create(value1, value2);
+        assertEquals(value1, head.val);
+        assertEquals(value2, head.next.val);
+        assertEquals(null, head.next.next);
+    }
 }
