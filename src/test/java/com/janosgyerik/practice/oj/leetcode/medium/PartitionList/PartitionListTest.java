@@ -45,4 +45,24 @@ public class PartitionListTest {
     public void test_filter_1_2_3_by_gt5() {
         assertEquals("", filter(e -> e > 5, 1, 2, 3));
     }
+
+    @Test
+    public void test_concat_empty_and_empty() {
+        assertEquals("", ListNodeUtils.toString(Solution.concat(create(), create())));
+    }
+
+    @Test
+    public void test_concat_1_2_3_and_empty() {
+        assertEquals("1->2->3", ListNodeUtils.toString(Solution.concat(create(1, 2, 3), create())));
+    }
+
+    @Test
+    public void test_concat_empty_and_1_2_3() {
+        assertEquals("1->2->3", ListNodeUtils.toString(Solution.concat(create(), create(1, 2, 3))));
+    }
+
+    @Test
+    public void test_concat_1_2_and_3_empty() {
+        assertEquals("1->2->3", ListNodeUtils.toString(Solution.concat(create(1, 2), create(3))));
+    }
 }

@@ -9,8 +9,24 @@ public class Solution {
         return concat(filter(head, e -> e < x), filter(head, e -> e >= x));
     }
 
-    protected ListNode concat(ListNode head1, ListNode head2) {
-        return null;
+    protected static ListNode concat(ListNode head1, ListNode head2) {
+        if (head1 == null) {
+            return head2;
+        }
+        if (head2 == null) {
+            return head1;
+        }
+        last(head1).next = head2;
+        return head1;
+    }
+
+    private static ListNode last(ListNode head) {
+        assert head != null;
+        ListNode node = head;
+        while (node.next != null) {
+            node = node.next;
+        }
+        return node;
     }
 
     protected static ListNode filter(ListNode head, Predicate<? super Integer> predicate) {
