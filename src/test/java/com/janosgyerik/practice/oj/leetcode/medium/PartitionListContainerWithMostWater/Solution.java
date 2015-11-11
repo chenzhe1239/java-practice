@@ -50,6 +50,6 @@ public class Solution {
     }
 
     private int[] getUniqueHeights(int[] height) {
-        return Arrays.stream(height).distinct().toArray();
+        return Arrays.stream(height).distinct().sorted().toArray();
     }
 }
