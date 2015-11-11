@@ -49,4 +49,13 @@ public class ListNodeUtilsTest {
         assertEquals(String.format("%s->%s", value1, value2), ListNodeUtils.toString(head));
     }
 
+    @Test
+    public void test_toString_with_3_items() {
+        int value1 = 3;
+        int value2 = 5;
+        int value3 = 1;
+        ListNode head = create(value1, value2, value3);
+        assertEquals(String.format("%s->%s->%s", value1, value2, value3), ListNodeUtils.toString(head));
+    }
+
 }
