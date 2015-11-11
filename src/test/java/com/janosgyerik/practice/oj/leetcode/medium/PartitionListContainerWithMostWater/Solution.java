@@ -25,8 +25,9 @@ public class Solution {
 
     private Map<Integer, Integer> mapToFirstSeenPos(int[] heights, int[] uniqueHeights) {
         Map<Integer, Integer> result = new HashMap<>();
+        int pos = 0;
         for (int height : uniqueHeights) {
-            for (int pos = 0; pos < heights.length; ++pos) {
+            for (; pos < heights.length; ++pos) {
                 if (heights[pos] >= height) {
                     result.put(height, pos);
                     break;
@@ -38,8 +39,9 @@ public class Solution {
 
     private Map<Integer, Integer> mapToLastSeenPos(int[] heights, int[] uniqueHeights) {
         Map<Integer, Integer> result = new HashMap<>();
+        int pos = heights.length - 1;
         for (int height : uniqueHeights) {
-            for (int pos = heights.length - 1; pos >= 0; --pos) {
+            for (; pos >= 0; --pos) {
                 if (heights[pos] >= height) {
                     result.put(height, pos);
                     break;
