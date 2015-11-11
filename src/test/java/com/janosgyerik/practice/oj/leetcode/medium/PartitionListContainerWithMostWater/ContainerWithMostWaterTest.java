@@ -14,6 +14,26 @@ public class ContainerWithMostWaterTest {
     }
 
     @Test
+    public void test_1_1() {
+        assertEquals(1, solve(1, 1));
+    }
+
+    @Test
+    public void test_1_2_1() {
+        assertEquals(2, solve(1, 2, 1));
+    }
+
+    @Test
+    public void test_1_2_4_3() {
+        assertEquals(4, solve(1, 2, 4, 3));
+    }
+
+    @Test
+    public void test_3_2_1_3() {
+        assertEquals(9, solve(3, 2, 1, 3));
+    }
+
+    @Test
     public void test_1_2_3_4_5_3_2_7_3_1() {
         assertEquals(18, solve(1, 2, 3, 4, 5, 3, 2, 7, 3, 1));
     }
