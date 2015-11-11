@@ -4,6 +4,19 @@ import java.util.*;
 
 public class Solution {
     public int maxArea(int[] height) {
+        int max = 0;
+        for (int low = 0, high = height.length - 1; low < high;) {
+            max = Math.max(max, (high - low) * Math.min(height[low], height[high]));
+            if (height[low] < height[high]) {
+                ++low;
+            } else {
+                --high;
+            }
+        }
+        return max;
+    }
+
+    public int maxArea_old(int[] height) {
         if (height.length < 2) {
             return 0;
         }
