@@ -28,4 +28,25 @@ public class ListNodeUtilsTest {
         assertEquals(value2, head.next.val);
         assertEquals(null, head.next.next);
     }
+
+    @Test
+    public void test_toString_empty() {
+        assertEquals("", ListNodeUtils.toString(create()));
+    }
+
+    @Test
+    public void test_toString_singleton() {
+        int value = 3;
+        ListNode head = create(value);
+        assertEquals("" + value, ListNodeUtils.toString(head));
+    }
+
+    @Test
+    public void test_toString_with_2_items() {
+        int value1 = 3;
+        int value2 = 5;
+        ListNode head = create(value1, value2);
+        assertEquals(String.format("%s->%s", value1, value2), ListNodeUtils.toString(head));
+    }
+
 }

@@ -20,4 +20,15 @@ public class ListNodeUtils {
 
         return head;
     }
+
+    public static String toString(ListNode head) {
+        if (head == null) {
+            return "";
+        }
+        StringBuilder builder = new StringBuilder();
+        for (ListNode node = head; node != null; node = node.next) {
+            builder.append(node.val).append("->");
+        }
+        return builder.substring(0, builder.length() - 2);
+    }
 }
