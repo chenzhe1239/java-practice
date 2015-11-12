@@ -13,6 +13,11 @@ public class LongestIncreasingSubsequenceTest {
     }
 
     @Test
+    public void test_empty() {
+        assertEquals(0, solve());
+    }
+
+    @Test
     public void test_3() {
         assertEquals(1, solve(3));
     }
