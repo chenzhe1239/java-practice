@@ -46,4 +46,9 @@ public class LongestIncreasingSubsequenceTest {
     public void test_10_9_2_5_3_7_101_18() {
         assertEquals(4, solve(10, 9, 2, 5, 3, 7, 101, 18));
     }
+
+    @Test
+    public void test_1_3_6_7_9_4_10_5_6() {
+        assertEquals(6, solve(1, 3, 6, 7, 9, 4, 10, 5, 6));
+    }
 }
