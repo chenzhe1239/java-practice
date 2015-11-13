@@ -1,4 +1,4 @@
-package com.janosgyerik.misc;
+package com.janosgyerik.practice.misc;
 
 //import com.janosgyerik.tools.util.MatrixUtils;
 import org.junit.Test;

@@ -1,11 +1,11 @@
-package com.janosgyerik.misc.tree;
+package com.janosgyerik.practice.misc.tree;
 
 import org.junit.Test;
 
 import java.util.*;
 
-import static com.janosgyerik.misc.tree.TreeNodeUtils.toList;
-import static com.janosgyerik.misc.tree.TreeNodeUtils.toTree;
+import static com.janosgyerik.practice.misc.tree.TreeNodeUtils.toList;
+import static com.janosgyerik.practice.misc.tree.TreeNodeUtils.toTree;
 import static org.junit.Assert.*;
 
 public class TreeNodeUtilsTest {

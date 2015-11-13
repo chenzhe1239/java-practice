@@ -1,4 +1,4 @@
-package com.janosgyerik.misc.tree;
+package com.janosgyerik.practice.misc.tree;
 
 import java.util.*;
 

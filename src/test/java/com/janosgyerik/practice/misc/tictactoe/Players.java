@@ -1,4 +1,4 @@
-package com.janosgyerik.misc.tictactoe;
+package com.janosgyerik.practice.misc.tictactoe;
 
 import java.util.*;
 

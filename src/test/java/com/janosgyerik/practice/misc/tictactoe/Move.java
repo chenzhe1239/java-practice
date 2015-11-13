@@ -1,4 +1,4 @@
-package com.janosgyerik.misc.tictactoe;
+package com.janosgyerik.practice.misc.tictactoe;
 
 public enum Move {
     TOPLEFT(0, 0),
