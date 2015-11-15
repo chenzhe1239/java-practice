@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toMap;
 
 public class Solution {
     public String minWindow(String s, String t) {
@@ -28,8 +29,8 @@ public class Solution {
     private static class Tracker {
         private final String source;
 
-        private final Map<Integer, Long> targetCounts;
-        private final Map<Integer, Long> runningCounts = new HashMap<>();
+        private final Map<Character, Integer> targetCounts;
+        private final Map<Character, Integer> runningCounts = new HashMap<>();
         private final SortedSet<CharPos> sortedPos = new TreeSet<>((p1, p2) -> Integer.compare(p1.pos, p2.pos));
         private int pos = -1;
 
@@ -47,16 +48,21 @@ public class Solution {
             this.source = source;
             targetCounts = target.chars()
                     .boxed()
-                    .collect(groupingBy(Function.identity(), counting()));
+                    .collect(groupingBy(Function.identity(), counting()))
+                    .entrySet()
+                    .stream()
+                    .collect(toMap(e -> (char) e.getKey()
+                            .intValue(), e -> e.getValue()
+                            .intValue()));
         }
 
         void add(char c) {
             ++pos;
-            Long count = targetCounts.get((int) c);
+            Integer count = targetCounts.get(c);
             if (count == null) {
                 return;
             }
-            if (count.equals(runningCounts.get((int) c))) {
+            if (count.equals(runningCounts.get(c))) {
                 removeFirstSeen(c);
             } else {
                 incrementCount(c);
@@ -75,10 +81,10 @@ public class Solution {
             }
         }
 
-        private void incrementCount(int c) {
-            Long runningCount = runningCounts.get(c);
+        private void incrementCount(char c) {
+            Integer runningCount = runningCounts.get(c);
             if (runningCount == null) {
-                runningCounts.put(c, 1L);
+                runningCounts.put(c, 1);
             } else {
                 runningCounts.put(c, runningCount + 1);
             }
@@ -97,7 +103,7 @@ public class Solution {
         public void advance() {
             CharPos first = sortedPos.first();
             sortedPos.remove(first);
-            runningCounts.put((int) first.c, runningCounts.get((int) first.c) - 1);
+            runningCounts.put(first.c, runningCounts.get(first.c) - 1);
         }
     }
 }
