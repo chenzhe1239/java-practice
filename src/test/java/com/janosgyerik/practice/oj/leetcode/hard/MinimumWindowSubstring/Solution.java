@@ -30,7 +30,7 @@ public class Solution {
 
         private final Map<Integer, Long> targetCounts;
         private final Map<Integer, Long> runningCounts = new HashMap<>();
-        private final PriorityQueue<CharPos> heap = new PriorityQueue<>((p1, p2) -> Integer.compare(p1.pos, p2.pos));
+        private final SortedSet<CharPos> sortedPos = new TreeSet<>((p1, p2) -> Integer.compare(p1.pos, p2.pos));
         private int pos = -1;
 
         private static class CharPos {
@@ -40,39 +40,6 @@ public class Solution {
             private CharPos(char c, int pos) {
                 this.c = c;
                 this.pos = pos;
-            }
-
-            @Override
-            public boolean equals(Object o) {
-                if (this == o) {
-                    return true;
-                }
-                if (o == null || getClass() != o.getClass()) {
-                    return false;
-                }
-
-                CharPos charPos = (CharPos) o;
-
-                if (c != charPos.c) {
-                    return false;
-                }
-                if (pos != charPos.pos) {
-                    return false;
-                }
-
-                return true;
-            }
-
-            @Override
-            public int hashCode() {
-                int result = (int) c;
-                result = 31 * result + pos;
-                return result;
-            }
-
-            @Override
-            public String toString() {
-                return "(" + c + ", " + pos + ")";
             }
         }
 
@@ -90,17 +57,14 @@ public class Solution {
                 return;
             }
             if (count.equals(runningCounts.get((int) c))) {
-                List<CharPos> copy = new ArrayList<>(heap.size() - 1);
-                while (!heap.isEmpty()) {
-                    CharPos item = heap.poll();
+                Iterator<CharPos> iterator = sortedPos.iterator();
+                while (iterator.hasNext()) {
+                    CharPos item = iterator.next();
                     if (item.c == c) {
+                        iterator.remove();
                         break;
                     }
-                    copy.add(item);
                 }
-                copy.addAll(heap);
-                heap.clear();
-                heap.addAll(copy);
             } else {
                 Long runningCount = runningCounts.get((int) c);
                 if (runningCount == null) {
@@ -109,7 +73,7 @@ public class Solution {
                     runningCounts.put((int) c, runningCount + 1);
                 }
             }
-            heap.add(new CharPos(c, pos));
+            sortedPos.add(new CharPos(c, pos));
         }
 
         boolean isWindowComplete() {
@@ -117,13 +81,14 @@ public class Solution {
         }
 
         public String getWindow() {
-            int start = heap.peek().pos;
+            int start = sortedPos.first().pos;
             int end = pos + 1;
             return source.substring(start, end);
         }
 
         public void advance() {
-            CharPos first = heap.poll();
+            CharPos first = sortedPos.first();
+            sortedPos.remove(first);
             runningCounts.put((int) first.c, runningCounts.get((int) first.c) - 1);
         }
     }
