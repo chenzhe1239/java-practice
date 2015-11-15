@@ -57,23 +57,31 @@ public class Solution {
                 return;
             }
             if (count.equals(runningCounts.get((int) c))) {
-                Iterator<CharPos> iterator = sortedPos.iterator();
-                while (iterator.hasNext()) {
-                    CharPos item = iterator.next();
-                    if (item.c == c) {
-                        iterator.remove();
-                        break;
-                    }
-                }
+                removeFirstSeen(c);
             } else {
-                Long runningCount = runningCounts.get((int) c);
-                if (runningCount == null) {
-                    runningCounts.put((int) c, 1L);
-                } else {
-                    runningCounts.put((int) c, runningCount + 1);
-                }
+                incrementCount(c);
             }
             sortedPos.add(new CharPos(c, pos));
+        }
+
+        private void removeFirstSeen(char c) {
+            Iterator<CharPos> iterator = sortedPos.iterator();
+            while (iterator.hasNext()) {
+                CharPos item = iterator.next();
+                if (item.c == c) {
+                    iterator.remove();
+                    break;
+                }
+            }
+        }
+
+        private void incrementCount(int c) {
+            Long runningCount = runningCounts.get(c);
+            if (runningCount == null) {
+                runningCounts.put(c, 1L);
+            } else {
+                runningCounts.put(c, runningCount + 1);
+            }
         }
 
         boolean isWindowComplete() {
