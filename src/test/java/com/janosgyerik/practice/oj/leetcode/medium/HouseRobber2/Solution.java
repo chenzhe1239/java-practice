@@ -1,11 +1,13 @@
-package com.janosgyerik.practice.oj.leetcode.medium.Other;
+package com.janosgyerik.practice.oj.leetcode.medium.HouseRobber2;
 
-public class HouseRobber2 {
+public class Solution {
     public int rob(int[] nums) {
         int length = nums.length;
+
         if (length == 0) {
             return 0;
-        } else if (length == 1) {
+        }
+        if (length == 1) {
             return nums[0];
         }
 
