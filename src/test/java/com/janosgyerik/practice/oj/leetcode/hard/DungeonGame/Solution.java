@@ -2,25 +2,28 @@ package com.janosgyerik.practice.oj.leetcode.hard.DungeonGame;
 
 public class Solution {
     public int calculateMinimumHP(int[][] grid) {
-        int min = grid[0][0] >= 0 ? 1 : 1 - grid[0][0];
-
+        int min = grid[0][0];
         int[][] xmin = createGrid(grid);
         int[][] hp = createGrid(grid);
 
         for (int row = 0; row < grid.length; ++row) {
             for (int col = 0; col < grid[row].length; ++col) {
-                if (getLeft(xmin, row, col) < getTop(xmin, row, col)
-                        || getLeft(xmin, row, col) == getTop(xmin, row, col)
-                        && getLeft(hp, row, col) > getTop(hp, row, col)) {
-                    xmin[row][col] = Math.min(getLeft(xmin, row, col), getLeft(xmin, row, col) + grid[row][col]);
-                    hp[row][col] = getLeft(hp, row, col) + grid[row][col];
+                int xminLeft = getLeft(xmin, row, col);
+                int xminTop = getTop(xmin, row, col);
+                int hpLeft = getLeft(hp, row, col);
+                int hpTop = getTop(hp, row, col);
+
+                if (xminLeft < xminTop || xminLeft == xminTop && hpLeft > hpTop) {
+                    xmin[row][col] = Math.min(xminLeft, xminLeft + grid[row][col]);
+                    hp[row][col] = hpLeft + grid[row][col];
                 } else {
-                    xmin[row][col] = Math.min(getTop(xmin, row, col), getTop(xmin, row, col) + grid[row][col]);
-                    hp[row][col] = getTop(hp, row, col) + grid[row][col];
+                    xmin[row][col] = Math.min(hpTop, hpTop + grid[row][col]);
+                    hp[row][col] = hpTop + grid[row][col];
                 }
+                min = hp[row][col];
             }
         }
-        return min;
+        return min >= 0 ? 1 : 1 - min;
     }
 
     private int[][] createGrid(int[][] grid) {
