@@ -22,35 +22,45 @@ public class DungeonGameTest {
         assertEquals(4, solve(new int[][]{{-3}}));
     }
 
-//    @Test
-//    public void test_row_1_2_3() {
-//        assertEquals(6, solve(new int[][]{{1, 2, 3}}));
-//    }
-//
-//    @Test
-//    public void test_column_1_2_3() {
-//        assertEquals(6, solve(new int[][]{{1}, {2}, {3}}));
-//    }
-//
-//    @Test
-//    public void test_pass_through_top() {
-//        assertEquals(0, solve(new int[][]{{0, 0, 0}, {1, 1, 0}}));
-//    }
-//
-//    @Test
-//    public void test_pass_through_bottom() {
-//        assertEquals(0, solve(new int[][]{{0, 1, 1}, {0, 0, 0}}));
-//    }
-//
-//    @Test
-//    public void test_pass_through_zigzag() {
-//        assertEquals(0, solve(new int[][]{{0, 1, 1}, {0, 0, 1}, {1, 0, 0}}));
-//    }
-//
-//    @Test
-//    public void test_multiple_min_paths() {
-//        assertEquals(0, solve(new int[][]{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}));
-//    }
+    @Test
+    public void test_row_1_2() {
+        assertEquals(1, solve(new int[][]{{1, 2}}));
+    }
+
+    @Test
+    public void test_row_m1_m2() {
+        assertEquals(4, solve(new int[][]{{-1, -2}}));
+    }
+
+    //    @Test
+    //    public void test_column_1_2_3() {
+    //        assertEquals(6, solve(new int[][]{{1}, {2}, {3}}));
+    //    }
+    //
+    //    @Test
+    //    public void test_pass_through_top() {
+    //        assertEquals(0, solve(new int[][]{{0, 0, 0}, {1, 1, 0}}));
+    //    }
+    //
+    //    @Test
+    //    public void test_pass_through_bottom() {
+    //        assertEquals(0, solve(new int[][]{{0, 1, 1}, {0, 0, 0}}));
+    //    }
+    //
+    //    @Test
+    //    public void test_pass_through_zigzag() {
+    //        assertEquals(0, solve(new int[][]{{0, 1, 1}, {0, 0, 1}, {1, 0, 0}}));
+    //    }
+    //
+    //    @Test
+    //    public void test_multiple_min_paths() {
+    //        assertEquals(0, solve(new int[][]{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}));
+    //    }
+
+    @Test
+    public void test_dungeon_first_2_rows() {
+        assertEquals(6, solve(new int[][]{{-2, -3, 3}, {-5, -10, 1}}));
+    }
 
     @Test
     public void test_dungeon() {

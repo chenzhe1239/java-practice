@@ -13,14 +13,14 @@ public class Solution {
                 int hpLeft = getLeft(hp, row, col);
                 int hpTop = getTop(hp, row, col);
 
-                if (xminLeft < xminTop || xminLeft == xminTop && hpLeft > hpTop) {
-                    xmin[row][col] = Math.min(xminLeft, xminLeft + grid[row][col]);
-                    hp[row][col] = hpLeft + grid[row][col];
-                } else {
-                    xmin[row][col] = Math.min(hpTop, hpTop + grid[row][col]);
+                if (xminLeft < xminTop || xminLeft == xminTop && hpTop > hpLeft) {
+                    xmin[row][col] = Math.min(xminTop, hpTop + grid[row][col]);
                     hp[row][col] = hpTop + grid[row][col];
+                } else {
+                    xmin[row][col] = Math.min(xminLeft, hpLeft + grid[row][col]);
+                    hp[row][col] = hpLeft + grid[row][col];
                 }
-                min = hp[row][col];
+                min = xmin[row][col];
             }
         }
         return min >= 0 ? 1 : 1 - min;
