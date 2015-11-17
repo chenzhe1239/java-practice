@@ -23,7 +23,7 @@ public class Solution {
                 min = xmin[row][col];
             }
         }
-        return min >= 0 ? 1 : 1 - min;
+        return 1 - Math.min(0, min);
     }
 
     private int[][] createGrid(int[][] grid) {
