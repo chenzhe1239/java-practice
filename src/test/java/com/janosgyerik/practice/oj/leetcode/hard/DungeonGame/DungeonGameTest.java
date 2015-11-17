@@ -89,4 +89,19 @@ public class DungeonGameTest {
             hp = top hp + grid
          */
     }
+
+    @Test
+    public void test_dungeon_example_2() {
+        assertEquals(3, solve(new int[][]{
+                {1, -3, 3},
+                {0, -2, 0},
+                {-3, -3, -3}
+        }));
+        /*
+        (xmin, hp)
+        1,1   -2,-2   -2,1
+        1,1   -1,-1   -1,-1 !!! should choose higher hp, because that way we will dip less low in the next step
+        // TODO: what if you go from bottom up?
+         */
+    }
 }
