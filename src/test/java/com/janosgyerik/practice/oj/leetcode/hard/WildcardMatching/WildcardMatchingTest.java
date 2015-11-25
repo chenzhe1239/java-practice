@@ -68,7 +68,14 @@ public class WildcardMatchingTest {
     }
 
     @Test
-    public void test_many_stars() {
+    public void test_clustered_stars() {
         assertFalse(isMatch("aaabbbaabaaaaababaabaaabbabbbbbbbbaabababbabbbaaaaba", "a*******b"));
+    }
+
+//    @Test
+    public void test_many_stars() {
+        assertFalse(
+                isMatch("babbbbaabababaabbababaababaabbaabababbaaababbababaaaaaabbabaaaabababbabbababbbaaaababbbabbbbbbbbbbaabbb",
+                        "b**bb**a**bba*b**a*bbb**aba***babbb*aa****aabb*bbb***a"));
     }
 }
