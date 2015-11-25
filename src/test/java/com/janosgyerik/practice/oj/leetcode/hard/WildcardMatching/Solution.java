@@ -14,7 +14,8 @@ public class Solution {
 
     public boolean isMatchHelper(String text, String pattern, Set<String> unmatched) {
         int iText = 0;
-        for (int iPattern = 0; iText < text.length() && iPattern < pattern.length(); ++iText, ++iPattern) {
+        int iPattern = 0;
+        for (; iText < text.length() && iPattern < pattern.length(); ++iText, ++iPattern) {
             char cText = text.charAt(iText);
             char cPattern = pattern.charAt(iPattern);
             if (cPattern == '?') {
@@ -41,6 +42,8 @@ public class Solution {
                 return false;
             }
         }
-        return iText == text.length();
+        return iText == text.length()
+                && (iPattern == pattern.length()
+                || iPattern == pattern.length() - 1 && pattern.charAt(iPattern) == '*');
     }
 }
