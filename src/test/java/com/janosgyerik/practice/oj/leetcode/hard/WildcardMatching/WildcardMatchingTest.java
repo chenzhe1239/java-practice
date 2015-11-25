@@ -61,4 +61,9 @@ public class WildcardMatchingTest {
     public void test_aabcbc_aab_star_c_q_c() {
         assertTrue(isMatch("aabcbc", "aab*c?c"));
     }
+
+    @Test
+    public void test_many_stars() {
+        assertFalse(isMatch("aaabbbaabaaaaababaabaaabbabbbbbbbbaabababbabbbaaaaba", "a*******b"));
+    }
 }

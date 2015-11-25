@@ -2,6 +2,14 @@ package com.janosgyerik.practice.oj.leetcode.hard.WildcardMatching;
 
 public class Solution {
     public boolean isMatch(String text, String pattern) {
+        return isMatchHelper(text, simplify(pattern));
+    }
+
+    private String simplify(String pattern) {
+        return pattern.replaceAll("\\*{2,}", "*");
+    }
+
+    public boolean isMatchHelper(String text, String pattern) {
         int iText = 0;
         for (int iPattern = 0; iText < text.length() && iPattern < pattern.length(); ++iText, ++iPattern) {
             char cText = text.charAt(iText);
@@ -17,7 +25,7 @@ public class Solution {
             } else {
                 String subPattern = pattern.substring(iPattern + 1);
                 for (; iText < text.length(); ++iText) {
-                    boolean match = isMatch(text.substring(iText), subPattern);
+                    boolean match = isMatchHelper(text.substring(iText), subPattern);
                     if (match) {
                         return true;
                     }
