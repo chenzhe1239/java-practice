@@ -6,8 +6,9 @@ public class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         Map<Integer, Set<Integer>> map = toMap(prerequisites);
         Set<Integer> finishable = new HashSet<>();
+        boolean[] visited = new boolean[numCourses];
         for (int index : map.keySet()) {
-            if (!canFinish(map, new boolean[numCourses], index, finishable)) {
+            if (!canFinish(map, visited, index, finishable)) {
                 return false;
             } else {
                 finishable.add(index);
