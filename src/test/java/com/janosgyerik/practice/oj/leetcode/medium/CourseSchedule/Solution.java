@@ -5,20 +5,22 @@ import java.util.*;
 public class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         Map<Integer, Set<Integer>> map = toMap(prerequisites);
-        Set<Integer> finishable = new HashSet<>();
+
         boolean[] visited = new boolean[numCourses];
+        boolean[] finishable = new boolean[numCourses];
+
         for (int index : map.keySet()) {
             if (!canFinish(map, visited, index, finishable)) {
                 return false;
             } else {
-                finishable.add(index);
+                finishable[index] = true;
             }
         }
         return true;
     }
 
-    private boolean canFinish(Map<Integer, Set<Integer>> map, boolean[] visited, int index, Set<Integer> finishable) {
-        if (finishable.contains(index)) {
+    private boolean canFinish(Map<Integer, Set<Integer>> map, boolean[] visited, int index, boolean[] finishable) {
+        if (finishable[index]) {
             return true;
         }
         if (visited[index]) {
@@ -33,7 +35,7 @@ public class Solution {
             if (!canFinish(map, visited, req, finishable)) {
                 return false;
             } else {
-                finishable.add(req);
+                finishable[req] = true;
             }
         }
         return true;
