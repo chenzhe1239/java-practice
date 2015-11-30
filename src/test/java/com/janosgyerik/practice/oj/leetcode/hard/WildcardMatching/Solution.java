@@ -21,15 +21,17 @@ public class Solution {
             textIndex = segments[0].length();
         }
 
-        // if first is "" then can find anywhere, return index
-        while (textIndex < text.length() && segmentsIndex < segments.length) {
+        while (segmentsIndex < segments.length) {
             String segment = segments[segmentsIndex];
             if (segment.isEmpty()) {
                 ++segmentsIndex;
                 continue;
             }
-            // for each next pattern segment, find index
-            textIndex = indexOf(text, segment, textIndex) + segment.length();
+            int index = indexOf(text, segment, textIndex);
+            if (index < 0) {
+                return false;
+            }
+            textIndex = index + segment.length();
             if (textIndex < 0) {
                 return false;
             }

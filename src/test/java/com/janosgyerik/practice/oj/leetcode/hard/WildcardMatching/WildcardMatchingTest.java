@@ -27,6 +27,11 @@ public class WildcardMatchingTest {
     }
 
     @Test
+    public void test_empty_S() {
+        assertTrue(isMatch("", "*"));
+    }
+
+    @Test
     public void test_aa_a() {
         assertFalse(isMatch("aa", "a"));
     }
