@@ -1,49 +1,81 @@
 package com.janosgyerik.practice.oj.leetcode.hard.WildcardMatching;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Solution {
     public boolean isMatch(String text, String pattern) {
-        return isMatchHelper(text, simplify(pattern), new HashSet<>());
+        String[] segments = split(pattern);
+        if (segments.length == 0) {
+            return true;
+        }
+        if (segments.length == 1) {
+            return startsWith(text, segments[0]) && text.length() == segments[0].length();
+        }
+
+        // if first is not "" then must match from start
+        int textIndex = 0;
+        int segmentsIndex = 0;
+        if (!segments[0].isEmpty()) {
+            if (!startsWith(text, segments[0])) {
+                return false;
+            }
+            segmentsIndex = 1;
+            textIndex = segments[0].length();
+        }
+
+        // if first is "" then can find anywhere, return index
+        while (textIndex < text.length() && segmentsIndex < segments.length) {
+            String segment = segments[segmentsIndex];
+            if (segment.isEmpty()) {
+                ++segmentsIndex;
+                continue;
+            }
+            // for each next pattern segment, find index
+            textIndex = indexOf(text, segment, textIndex) + segment.length();
+            if (textIndex < 0) {
+                return false;
+            }
+            ++segmentsIndex;
+        }
+
+        if (segmentsIndex >= segments.length - 1 && segments[segments.length - 1].isEmpty()) {
+            return true;
+        }
+        return textIndex == text.length() && segmentsIndex == segments.length;
     }
 
-    private String simplify(String pattern) {
-        return pattern.replaceAll("\\*{2,}", "*");
+    public int indexOf(String text, String pattern) {
+        return indexOf(text, pattern, 0);
     }
 
-    public boolean isMatchHelper(String text, String pattern, Set<String> unmatched) {
-        int iText = 0;
-        int iPattern = 0;
-        for (; iText < text.length() && iPattern < pattern.length(); ++iText, ++iPattern) {
-            char cText = text.charAt(iText);
-            char cPattern = pattern.charAt(iPattern);
-            if (cPattern == '?') {
-                // nothing to do
-            } else if (cPattern != '*') {
-                if (cText != cPattern) {
-                    return false;
+    public int indexOf(String text, String pattern, int start) {
+        for (int pos = start; pos <= text.length() - pattern.length(); ++pos) {
+            int i = 0;
+            for (; i < pattern.length(); ++i) {
+                char c = text.charAt(pos + i);
+                char p = pattern.charAt(i);
+                if (c != p && p != '?') {
+                    break;
                 }
-            } else if (iPattern == pattern.length() - 1) {
-                return true;
-            } else {
-                String subPattern = pattern.substring(iPattern + 1);
-                for (; iText < text.length(); ++iText) {
-                    String subText = text.substring(iText);
-                    if (unmatched.contains(subText)) {
-                        continue;
-                    }
-                    boolean match = isMatchHelper(subText, subPattern, new HashSet<>());
-                    if (match) {
-                        return true;
-                    }
-                    unmatched.add(subText);
-                }
+            }
+            if (i == pattern.length()) {
+                return pos;
+            }
+        }
+        return -1;
+    }
+
+    private boolean startsWith(String text, String pattern) {
+        if (text.length() < pattern.length()) {
+            return false;
+        }
+        for (int i = 0; i < pattern.length(); ++i) {
+            if (pattern.charAt(i) != text.charAt(i) && pattern.charAt(i) != '?') {
                 return false;
             }
         }
-        return iText == text.length()
-                && (iPattern == pattern.length()
-                || iPattern == pattern.length() - 1 && pattern.charAt(iPattern) == '*');
+        return true;
+    }
+
+    private String[] split(String text) {
+        return text.split("\\*", -1);
     }
 }

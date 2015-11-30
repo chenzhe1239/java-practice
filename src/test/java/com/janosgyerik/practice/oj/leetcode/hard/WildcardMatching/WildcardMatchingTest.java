@@ -2,14 +2,28 @@ package com.janosgyerik.practice.oj.leetcode.hard.WildcardMatching;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class WildcardMatchingTest {
     private final Solution solution = new Solution();
 
     private boolean isMatch(String text, String pattern) {
         return solution.isMatch(text, pattern);
+    }
+
+    @Test
+    public void test_indexOf_aaa_aqa_is_0() {
+        assertEquals(0, solution.indexOf("aaa", "a?a"));
+    }
+
+    @Test
+    public void test_indexOf_axa_aqa_is_0() {
+        assertEquals(0, solution.indexOf("axa", "a?a"));
+    }
+
+    @Test
+    public void test_indexOf_xyaxa_aqa_is_2() {
+        assertEquals(2, solution.indexOf("xyaxa", "a?a"));
     }
 
     @Test
@@ -72,7 +86,7 @@ public class WildcardMatchingTest {
         assertFalse(isMatch("aaabbbaabaaaaababaabaaabbabbbbbbbbaabababbabbbaaaaba", "a*******b"));
     }
 
-//    @Test
+    @Test
     public void test_many_stars() {
         assertFalse(
                 isMatch("babbbbaabababaabbababaababaabbaabababbaaababbababaaaaaabbabaaaabababbabbababbbaaaababbbabbbbbbbbbbaabbb",
