@@ -67,6 +67,11 @@ public class WildcardMatchingTest {
     }
 
     @Test
+    public void test_hi_SQ() {
+        assertTrue(isMatch("hi", "*?"));
+    }
+
+    @Test
     public void test_aab_cSaSb() {
         assertFalse(isMatch("aab", "c*a*b"));
     }

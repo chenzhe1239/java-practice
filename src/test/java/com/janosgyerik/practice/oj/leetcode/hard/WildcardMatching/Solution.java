@@ -38,10 +38,7 @@ public class Solution {
             ++segmentsIndex;
         }
 
-        if (segmentsIndex >= segments.length - 1 && segments[segments.length - 1].isEmpty()) {
-            return true;
-        }
-        return textIndex == text.length() && segmentsIndex == segments.length;
+        return textIndex == text.length() || segments[0].isEmpty() || segments[segmentsIndex - 1].isEmpty();
     }
 
     public int indexOf(String text, String pattern) {
