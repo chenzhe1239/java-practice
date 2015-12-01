@@ -3,26 +3,19 @@ package com.janosgyerik.practice.oj.leetcode.hard.WildcardMatching;
 public class Solution {
     public boolean isMatch(String text, String pattern) {
         String[] segments = split(pattern);
-        if (segments.length == 0) {
-            return true;
-        }
+        String firstSegment = segments[0];
         if (segments.length == 1) {
-            return startsWith(text, segments[0]) && text.length() == segments[0].length();
+            return startsWith(text, firstSegment) && text.length() == firstSegment.length();
         }
 
-        // if first is not "" then must match from start
-        String firstSegment = segments[0];
-        int textIndex = 0;
-        int segmentsIndex = 0;
         if (!firstSegment.isEmpty()) {
             if (!startsWith(text, firstSegment)) {
                 return false;
             }
-            segmentsIndex = 1;
+            segments[0] = "";
             text = text.substring(firstSegment.length());
         }
 
-        // if last is not "" then must match from end
         String lastSegment = segments[segments.length - 1];
         if (!lastSegment.isEmpty()) {
             if (!endsWith(text, lastSegment)) {
@@ -32,10 +25,9 @@ public class Solution {
             text = text.substring(0, text.length() - lastSegment.length());
         }
 
-        while (segmentsIndex < segments.length) {
-            String segment = segments[segmentsIndex];
+        int textIndex = 0;
+        for (String segment : segments) {
             if (segment.isEmpty()) {
-                ++segmentsIndex;
                 continue;
             }
             int index = indexOf(text, segment, textIndex);
@@ -43,10 +35,6 @@ public class Solution {
                 return false;
             }
             textIndex = index + segment.length();
-            if (textIndex < 0) {
-                return false;
-            }
-            ++segmentsIndex;
         }
 
         return textIndex == text.length() || segments[segments.length - 1].isEmpty();
