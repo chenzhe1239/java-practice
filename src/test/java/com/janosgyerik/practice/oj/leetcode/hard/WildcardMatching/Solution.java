@@ -11,14 +11,25 @@ public class Solution {
         }
 
         // if first is not "" then must match from start
+        String firstSegment = segments[0];
         int textIndex = 0;
         int segmentsIndex = 0;
-        if (!segments[0].isEmpty()) {
-            if (!startsWith(text, segments[0])) {
+        if (!firstSegment.isEmpty()) {
+            if (!startsWith(text, firstSegment)) {
                 return false;
             }
             segmentsIndex = 1;
-            textIndex = segments[0].length();
+            text = text.substring(firstSegment.length());
+        }
+
+        // if last is not "" then must match from end
+        String lastSegment = segments[segments.length - 1];
+        if (!lastSegment.isEmpty()) {
+            if (!endsWith(text, lastSegment)) {
+                return false;
+            }
+            segments[segments.length - 1] = "";
+            text = text.substring(0, text.length() - lastSegment.length());
         }
 
         while (segmentsIndex < segments.length) {
@@ -38,7 +49,7 @@ public class Solution {
             ++segmentsIndex;
         }
 
-        return textIndex == text.length() || segments[0].isEmpty() || segments[segmentsIndex - 1].isEmpty();
+        return textIndex == text.length() || segments[segments.length - 1].isEmpty();
     }
 
     public int indexOf(String text, String pattern) {
@@ -68,6 +79,19 @@ public class Solution {
         }
         for (int i = 0; i < pattern.length(); ++i) {
             if (pattern.charAt(i) != text.charAt(i) && pattern.charAt(i) != '?') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean endsWith(String text, String pattern) {
+        if (text.length() < pattern.length()) {
+            return false;
+        }
+        final int offset = text.length() - pattern.length();
+        for (int i = 0; i < pattern.length(); ++i) {
+            if (pattern.charAt(i) != text.charAt(offset + i) && pattern.charAt(i) != '?') {
                 return false;
             }
         }

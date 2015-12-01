@@ -67,8 +67,18 @@ public class WildcardMatchingTest {
     }
 
     @Test
-    public void test_hi_SQ() {
-        assertTrue(isMatch("hi", "*?"));
+    public void test_ab_Sb() {
+        assertTrue(isMatch("ab", "*b"));
+    }
+
+    @Test
+    public void test_ab_Sa() {
+        assertFalse(isMatch("ab", "*a"));
+    }
+
+    @Test
+    public void test_ab_SQ() {
+        assertTrue(isMatch("ab", "*?"));
     }
 
     @Test
