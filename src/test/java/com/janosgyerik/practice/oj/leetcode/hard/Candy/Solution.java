@@ -1,68 +1,44 @@
 package com.janosgyerik.practice.oj.leetcode.hard.Candy;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.stream.IntStream;
 
 public class Solution {
 
-    protected static class IndexAndRating {
-        private final int index;
-        private int rating;
-
-        protected IndexAndRating(int index, int rating) {
-            this.index = index;
-            this.rating = rating;
-        }
-    }
-
     public int candy(int[] ratings) {
-        if (ratings.length < 2) {
-            return ratings.length;
-        }
-
-        IndexAndRating[] pairs = createIndexAndRatingPairs(ratings);
-        sortByRating(pairs);
-        int[] reducedRatings = reduceByGroups(pairs);
-//        adjustFromLeft(reducedRatings);
-//        adjustFromRight(reducedRatings);
-//        adjustEqualNeighbors(reducedRatings);
-
-        return sum(reducedRatings);
+        return sum(calculate(ratings));
     }
 
-    private void sortByRating(IndexAndRating[] pairs) {
-        Arrays.sort(pairs, new Comparator<IndexAndRating>() {
-            @Override
-            public int compare(IndexAndRating o1, IndexAndRating o2) {
-                return Integer.compare(o1.rating, o2.rating);
+    protected int[] calculate(int... ratings) {
+        int[] candies = createArrayOfOnes(ratings.length);
+        calculateFromLeft(ratings, candies);
+        calculateFromRight(ratings, candies);
+        return candies;
+    }
+
+    private int[] createArrayOfOnes(int length) {
+        int[] ones = new int[length];
+        Arrays.fill(ones, 1);
+        return ones;
+    }
+
+    private void calculateFromLeft(int[] ratings, int[] candies) {
+        for (int i = 1; i < ratings.length; ++i) {
+            if (ratings[i - 1] < ratings[i]) {
+                candies[i] = candies[i - 1] + 1;
             }
-        });
-    }
-
-    protected int[] reduceByGroups(IndexAndRating[] pairs) {
-        int[] reducedRatings = new int[pairs.length];
-        int rating = 1;
-        int current = pairs[0].rating;
-        for (IndexAndRating pair : pairs) {
-            if (pair.rating != current) {
-                current = pair.rating;
-                ++rating;
-            }
-            reducedRatings[pair.index] = rating;
         }
-        return reducedRatings;
     }
 
-    private int sum(int[] ints) {
+    private void calculateFromRight(int[] ratings, int[] candies) {
+        for (int i = ratings.length - 2; i >= 0; --i) {
+            if (ratings[i] > ratings[i + 1]) {
+                candies[i] = Math.max(candies[i], candies[i + 1] + 1);
+            }
+        }
+    }
+
+    private int sum(int... ints) {
         return IntStream.of(ints).sum();
-    }
-
-    private IndexAndRating[] createIndexAndRatingPairs(int[] ratings) {
-        IndexAndRating[] pairs = new IndexAndRating[ratings.length];
-        for (int i = 0; i < ratings.length; ++i) {
-            pairs[i] = new IndexAndRating(i, ratings[i]);
-        }
-        return pairs;
     }
 }
