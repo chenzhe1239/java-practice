@@ -13,6 +13,11 @@ public class CourseScheduleTest {
     }
 
     @Test
+    public void test_1() {
+        assertTrue(solve(1, new int[0][]));
+    }
+
+    @Test
     public void test_2_x_1_0() {
         assertTrue(solve(2, new int[][]{{1, 0}}));
     }
