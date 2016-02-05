@@ -68,6 +68,12 @@ public class Solution {
             return neighbors;
         }
 
+        public int calculate() {
+            int a = nodes.keySet().iterator().next();
+            int b = neighborMap.get(a).iterator().next();
+            return calculate(a, b) + calculate(b, a);
+        }
+
         public int calculate(int a, int b) {
             int total = nodes.get(b);
             for (int neighbor : getNeighbors(b)) {
@@ -78,10 +84,25 @@ public class Solution {
             return total;
         }
 
-        public int calculate() {
-            int a = nodes.keySet().iterator().next();
-            int b = neighborMap.get(a).iterator().next();
-            return calculate(a, b) + calculate(b, a);
+        public int calculate(int a, int b, int limit) {
+            Queue<Link> queue = new LinkedList<>();
+            queue.add(new Link(a, b));
+
+            int total = 0;
+
+            while (!queue.isEmpty()) {
+                Link link = queue.poll();
+                total += nodes.get(link.b);
+                if (total >= limit) {
+                    return Integer.MAX_VALUE;
+                }
+                for (int neighbor : getNeighbors(link.b)) {
+                    if (neighbor != link.a) {
+                        queue.add(new Link(link.b, neighbor));
+                    }
+                }
+            }
+            return total;
         }
     }
 
@@ -98,8 +119,8 @@ public class Solution {
         int minDiff = Integer.MAX_VALUE;
 
         for (Link link : input.links) {
-//            int limit = (total + minDiff) / 2;
-            int sub = tree.calculate(link.a, link.b);
+            int limit = (total + minDiff) / 2;
+            int sub = tree.calculate(link.a, link.b, limit);
             int diff = Math.abs(total - 2 * sub);
             minDiff = Math.min(minDiff, diff);
         }
