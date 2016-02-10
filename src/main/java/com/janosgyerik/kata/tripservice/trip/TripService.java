@@ -1,8 +1,8 @@
-package org.craftedsw.tripservicekata.trip;
+package com.janosgyerik.kata.tripservice.trip;
 
-import org.craftedsw.tripservicekata.exception.UserNotLoggedInException;
-import org.craftedsw.tripservicekata.user.User;
-import org.craftedsw.tripservicekata.user.UserSession;
+import com.janosgyerik.kata.tripservice.exception.UserNotLoggedInException;
+import com.janosgyerik.kata.tripservice.user.User;
+import com.janosgyerik.kata.tripservice.user.UserSession;
 
 import java.util.Collections;
 import java.util.List;
