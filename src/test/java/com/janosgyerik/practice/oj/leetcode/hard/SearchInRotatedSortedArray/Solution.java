@@ -18,14 +18,14 @@ public class Solution {
         }
 
         if (target < nums[mid]) {
-            if (nums[start] <= target || nums[mid] <= nums[end - 1]) {
-                return search(nums, target, start, mid);
+            if (target < nums[start] && nums[start] < nums[mid]) {
+                return search(nums, target, mid + 1, end);
             }
-            return search(nums, target, mid + 1, end);
+            return search(nums, target, start, mid);
         }
-        if (target <= nums[end - 1] || nums[mid] > nums[end - 1]) {
-            return search(nums, target, mid + 1, end);
+        if (nums[end - 1] < target && nums[mid] <= nums[end - 1]) {
+            return search(nums, target, start, mid);
         }
-        return search(nums, target, start, mid);
+        return search(nums, target, mid + 1, end);
     }
 }
