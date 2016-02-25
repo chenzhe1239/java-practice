@@ -84,7 +84,7 @@ public class Solution {
             return total;
         }
 
-        public int calculateSum(int id, Set<Integer> visited, Map<Integer, Integer> sums) {
+        private int calculateSum(int id, Set<Integer> visited, Map<Integer, Integer> sums) {
             visited.add(id);
             int sum = nodes.get(id);
             for (int neighbor : getNeighbors(id)) {
@@ -94,6 +94,13 @@ public class Solution {
             }
             sums.put(id, sum);
             return sum;
+        }
+
+        public Map<Integer, Integer> calculateSums() {
+            Map<Integer, Integer> sums = new HashMap<>();
+            Set<Integer> visited = new HashSet<>();
+            calculateSum(1, visited, sums);
+            return sums;
         }
     }
 
@@ -106,8 +113,7 @@ public class Solution {
     public int solve(Input input) {
         Tree tree = new Tree(input.nodes, input.links);
 
-        Map<Integer, Integer> sums = new HashMap<>();
-        tree.calculateSum(1, new HashSet<Integer>(), sums);
+        Map<Integer, Integer> sums = tree.calculateSums();
 
         Queue<Integer> queue = new LinkedList<>();
         queue.add(1);
