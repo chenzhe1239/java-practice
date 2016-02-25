@@ -84,27 +84,6 @@ public class Solution {
             return total;
         }
 
-        public int calculate(int a, int b, int limit) {
-            Queue<Link> queue = new LinkedList<>();
-            queue.add(new Link(a, b));
-
-            int total = 0;
-
-            while (!queue.isEmpty()) {
-                Link link = queue.poll();
-                total += nodes.get(link.b);
-                if (total >= limit) {
-                    return Integer.MAX_VALUE;
-                }
-                for (int neighbor : getNeighbors(link.b)) {
-                    if (neighbor != link.a) {
-                        queue.add(new Link(link.b, neighbor));
-                    }
-                }
-            }
-            return total;
-        }
-
         public int calculateSum(int id, Set<Integer> visited, Map<Integer, Integer> sums) {
             visited.add(id);
             int sum = nodes.get(id);
