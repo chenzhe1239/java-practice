@@ -104,6 +104,18 @@ public class Solution {
             }
             return total;
         }
+
+        public int calculateSum(int id, Set<Integer> visited, Map<Integer, Integer> sums) {
+            visited.add(id);
+            int sum = nodes.get(id);
+            for (int neighbor : getNeighbors(id)) {
+                if (!visited.contains(neighbor)) {
+                    sum += calculateSum(neighbor, visited, sums);
+                }
+            }
+            sums.put(id, sum);
+            return sum;
+        }
     }
 
     public static void main(String[] args) {
@@ -115,14 +127,30 @@ public class Solution {
     public int solve(Input input) {
         Tree tree = new Tree(input.nodes, input.links);
 
-        int total = tree.calculate();
+        Map<Integer, Integer> sums = new HashMap<>();
+        tree.calculateSum(1, new HashSet<Integer>(), sums);
+
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(1);
+
+        int total = sums.get(1);
         int minDiff = Integer.MAX_VALUE;
 
-        for (Link link : input.links) {
-            int limit = (total + minDiff) / 2;
-            int sub = tree.calculate(link.a, link.b, limit);
-            int diff = Math.abs(total - 2 * sub);
-            minDiff = Math.min(minDiff, diff);
+        Set<Integer> visited = new HashSet<>();
+
+        while (!queue.isEmpty()) {
+            int id = queue.poll();
+            visited.add(id);
+
+            for (int neighbor : tree.getNeighbors(id)) {
+                if (visited.contains(neighbor)) {
+                    continue;
+                }
+                int sub = sums.get(neighbor);
+                int diff = Math.abs(total - 2 * sub);
+                minDiff = Math.min(minDiff, diff);
+                queue.add(neighbor);
+            }
         }
         return minDiff;
     }
