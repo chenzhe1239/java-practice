@@ -32,6 +32,16 @@ public class NQueensTest {
     }
 
     @Test
+    public void test_9() {
+        assertEquals(352, solution.solveNQueens(9).size());
+    }
+
+    @Test
+    public void test_12() {
+        assertEquals(14200, solution.solveNQueens(12).size());
+    }
+
+    @Test
     public void test_isValid_all_placements_are_valid_in_row_0() {
         assertTrue(solution.isValid(new int[0], 0, 0));
         assertTrue(solution.isValid(new int[0], 0, 1));
