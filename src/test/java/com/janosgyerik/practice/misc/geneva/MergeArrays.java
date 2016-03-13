@@ -7,27 +7,27 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 
 public class MergeArrays {
-    static int[] mergeArrays(int[] a, int[] b) {
-        int[] merged = new int[a.length + b.length];
+    static int[] mergeArrays(int[] first, int[] second) {
+        int[] merged = new int[first.length + second.length];
 
-        int aIndex = 0;
-        int bIndex = 0;
+        int firstIndex = 0;
+        int secondIndex = 0;
         int index = 0;
 
-        while (aIndex < a.length && bIndex < b.length) {
-            if (a[aIndex] < b[bIndex]) {
-                merged[index++] = a[aIndex++];
+        while (firstIndex < first.length && secondIndex < second.length) {
+            if (first[firstIndex] < second[secondIndex]) {
+                merged[index++] = first[firstIndex++];
             } else {
-                merged[index++] = b[bIndex++];
+                merged[index++] = second[secondIndex++];
             }
         }
 
-        while (aIndex < a.length) {
-            merged[index++] = a[aIndex++];
+        while (firstIndex < first.length) {
+            merged[index++] = first[firstIndex++];
         }
 
-        while (bIndex < b.length) {
-            merged[index++] = b[bIndex++];
+        while (secondIndex < second.length) {
+            merged[index++] = second[secondIndex++];
         }
 
         return merged;
