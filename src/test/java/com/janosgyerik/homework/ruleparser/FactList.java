@@ -12,7 +12,7 @@ public class FactList<V> implements Iterable<Fact<V>> {
         this.facts = facts;
     }
 
-    public static <V> Builder<V> builder() {
+    public static <V2> Builder<V2> builder() {
         return new Builder<>();
     }
 
@@ -21,16 +21,16 @@ public class FactList<V> implements Iterable<Fact<V>> {
         return facts.iterator();
     }
 
-    public static class Builder<V> {
+    public static class Builder<V3> {
 
-        private final List<Fact<V>> facts = new ArrayList<>();
+        private final List<Fact<V3>> facts = new ArrayList<>();
 
-        public Builder<V> add(Object key, V value) {
+        public Builder<V3> add(Object key, V3 value) {
             facts.add(new Fact<>(key, value));
             return this;
         }
 
-        public FactList<V> build() {
+        public FactList<V3> build() {
             return new FactList<>(facts);
         }
     }

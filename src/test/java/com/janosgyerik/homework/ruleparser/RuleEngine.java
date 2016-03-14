@@ -13,7 +13,7 @@ public class RuleEngine<V> {
         this.rulesMap = rulesMap;
     }
 
-    public static <V> Builder<V> builder() {
+    public static <V2> Builder<V2> builder() {
         return new Builder<>();
     }
 
@@ -45,13 +45,13 @@ public class RuleEngine<V> {
         return invalid;
     }
 
-    public static class Builder<V> {
+    public static class Builder<V3> {
 
-        private final Map<Object, List<Rule<V>>> rulesMap = new HashMap<>();
+        private final Map<Object, List<Rule<V3>>> rulesMap = new HashMap<>();
 
-        public Builder<V> add(Rule<V> rule) {
+        public Builder<V3> add(Rule<V3> rule) {
             Object key = rule.getKey();
-            List<Rule<V>> rules = rulesMap.get(key);
+            List<Rule<V3>> rules = rulesMap.get(key);
             if (rules == null) {
                 rules = new ArrayList<>();
                 rulesMap.put(key, rules);
@@ -60,7 +60,7 @@ public class RuleEngine<V> {
             return this;
         }
 
-        public RuleEngine<V> build() {
+        public RuleEngine<V3> build() {
             return new RuleEngine<>(rulesMap);
         }
     }
