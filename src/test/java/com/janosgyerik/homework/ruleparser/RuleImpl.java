@@ -1,17 +1,17 @@
 package com.janosgyerik.homework.ruleparser;
 
-public class RuleImpl<K, V> implements Rule<K, V> {
+public class RuleImpl<V> implements Rule<V> {
 
-    private final K key;
+    private final Object key;
     private final Condition<V> condition;
 
-    public RuleImpl(K key, Condition<V> condition) {
+    public RuleImpl(Object key, Condition<V> condition) {
         this.key = key;
         this.condition = condition;
     }
 
     @Override
-    public K getKey() {
+    public Object getKey() {
         return key;
     }
 

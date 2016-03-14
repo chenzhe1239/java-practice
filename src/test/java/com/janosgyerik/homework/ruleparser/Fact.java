@@ -1,15 +1,15 @@
 package com.janosgyerik.homework.ruleparser;
 
-public class Fact<K, V> {
-    private final K key;
+public class Fact<V> {
+    private final Object key;
     private final V value;
 
-    public Fact(K key, V value) {
+    public Fact(Object key, V value) {
         this.key = key;
         this.value = value;
     }
 
-    public K getKey() {
+    public Object getKey() {
         return key;
     }
 

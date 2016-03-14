@@ -5,32 +5,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RuleEngine<K, V> {
+public class RuleEngine<V> {
 
-    private final Map<K, List<Rule<K, V>>> rulesMap;
+    private final Map<Object, List<Rule<V>>> rulesMap;
 
-    private RuleEngine(Map<K, List<Rule<K, V>>> rulesMap) {
+    private RuleEngine(Map<Object, List<Rule<V>>> rulesMap) {
         this.rulesMap = rulesMap;
     }
 
-    public static <K, V> Builder<K, V> builder() {
+    public static <V> Builder<V> builder() {
         return new Builder<>();
     }
 
-    public Map<K, List<Rule<K, V>>> validate(FactList<K, V> factList) {
-        Map<K, List<Rule<K, V>>> invalid = new HashMap<>();
+    public Map<Object, List<Rule<V>>> validate(FactList<V> factList) {
+        Map<Object, List<Rule<V>>> invalid = new HashMap<>();
 
-        for (Fact<K, V> fact : factList) {
-            K key = fact.getKey();
-            List<Rule<K, V>> rules = rulesMap.get(key);
+        for (Fact<V> fact : factList) {
+            Object key = fact.getKey();
+            List<Rule<V>> rules = rulesMap.get(key);
             if (rules == null) {
                 continue;
             }
 
             V value = fact.getValue();
-            for (Rule<K, V> rule : rules) {
+            for (Rule<V> rule : rules) {
                 if (!rule.getCondition().matches(value)) {
-                    List<Rule<K, V>> list = invalid.get(key);
+                    List<Rule<V>> list = invalid.get(key);
                     if (list == null) {
                         list = new ArrayList<>();
                         invalid.put(key, list);
@@ -45,13 +45,13 @@ public class RuleEngine<K, V> {
         return invalid;
     }
 
-    public static class Builder<K, V> {
+    public static class Builder<V> {
 
-        private final Map<K, List<Rule<K, V>>> rulesMap = new HashMap<>();
+        private final Map<Object, List<Rule<V>>> rulesMap = new HashMap<>();
 
-        public Builder<K, V> add(Rule<K, V> rule) {
-            K key = rule.getKey();
-            List<Rule<K, V>> rules = rulesMap.get(key);
+        public Builder<V> add(Rule<V> rule) {
+            Object key = rule.getKey();
+            List<Rule<V>> rules = rulesMap.get(key);
             if (rules == null) {
                 rules = new ArrayList<>();
                 rulesMap.put(key, rules);
@@ -60,7 +60,7 @@ public class RuleEngine<K, V> {
             return this;
         }
 
-        public RuleEngine<K, V> build() {
+        public RuleEngine<V> build() {
             return new RuleEngine<>(rulesMap);
         }
     }

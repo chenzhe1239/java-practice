@@ -1,8 +1,8 @@
 package com.janosgyerik.homework.ruleparser;
 
-public interface Rule<K, V> {
+public interface Rule<V> {
 
-    K getKey();
+    Object getKey();
 
     Condition<V> getCondition();
 }
