@@ -29,9 +29,9 @@ class LicencePlateSolver {
                     Set<String> subset = index.get(key);
                     if (subset == null) {
                         subset = new HashSet<>();
+                        index.put(key, subset);
                     }
                     subset.add(word);
-                    index.put(key, subset);
                 }
             }
         }
