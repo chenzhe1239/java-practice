@@ -1,4 +1,4 @@
-package com.janosgyerik.practice.misc;
+package com.janosgyerik.practice.misc.g2015;
 
 import org.junit.Test;
 
