@@ -3,36 +3,37 @@ package com.janosgyerik.practice.oj.leetcode.medium.LongestPalindromicSubstring;
 public class Solution {
     public String longestPalindrome(String s) {
         int longestLen = 0;
-        String longest = "";
-        for (int i = 0; i < s.length(); ++i) {
-            int length = getPalindromicLength(s, i);
-            if (length > longestLen) {
-                longestLen = length;
-                int start;
-                if ((length & 1) == 0) {
-                    start = i - length / 2 + 1;
-                } else {
-                    start = i - length / 2;
-                }
-                longest = s.substring(start, start + length);
+        String longest = null;
+        for (int mid = 0; mid < s.length(); ++mid) {
+            int len = longestPalindromicLength(s, mid);
+            if (longestLen < len) {
+                longestLen = len;
+                longest = getPalindrome(s, mid, len);
             }
         }
         return longest;
     }
 
-    private int getPalindromicLength(String s, int mid) {
-        return Math.max(getPalindromicLength(s, mid, mid + 1), 1 + getPalindromicLength(s, mid - 1, mid + 1));
+    private String getPalindrome(String s, int mid, int len) {
+        int startOffset = 1 - len & 1;
+        int start = mid - len / 2 + startOffset;
+        return s.substring(start, start + len);
     }
 
-    private int getPalindromicLength(String s, int left, int right) {
-        int length = 0;
-        int p1 = left;
-        int p2 = right;
-        while (p1 >= 0 && p2 < s.length() && s.charAt(p1) == s.charAt(p2)) {
-            length += 2;
-            --p1;
-            ++p2;
+    public int longestPalindromicLength(String s, int mid) {
+        int oddPalindromicLength = 1 + longestPalindromicLength(s, mid - 1, mid + 1);
+        int evenPalindromicLength = longestPalindromicLength(s, mid, mid + 1);
+        return Math.max(oddPalindromicLength, evenPalindromicLength);
+    }
+
+    private int longestPalindromicLength(String s, int start, int end) {
+        int len = 0;
+        for (; 0 <= start && end < s.length(); --start, ++end) {
+            if (s.charAt(start) != s.charAt(end)) {
+                break;
+            }
+            len += 2;
         }
-        return length;
+        return len;
     }
 }
