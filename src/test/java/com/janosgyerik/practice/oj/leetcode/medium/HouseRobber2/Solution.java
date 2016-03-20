@@ -2,27 +2,23 @@ package com.janosgyerik.practice.oj.leetcode.medium.HouseRobber2;
 
 public class Solution {
     public int rob(int[] nums) {
-        int length = nums.length;
-
-        switch (length) {
-            case 0: return 0;
-            case 1: return nums[0];
-            case 2: return Math.max(nums[0], nums[1]);
+        if (nums.length == 1) {
+            return nums[0];
         }
-
-        return Math.max(rob(nums, 0, length - 1), rob(nums, 1, length));
+        return Math.max(rob(nums, 1, nums.length), rob(nums, 0, nums.length - 1));
     }
 
     private int rob(int[] nums, int start, int end) {
-        int maxAtPrevPrev = nums[start];
-        int maxAtPrev = Math.max(nums[start], nums[start + 1]);
+        int max = 0;
+        int prev = 0;
+        int prevprev = 0;
 
-        for (int i = start + 2; i < end; ++i) {
+        for (int i = start; i < end; ++i) {
             int current = nums[i];
-            int max = Math.max(maxAtPrevPrev + current, maxAtPrev);
-            maxAtPrevPrev = maxAtPrev;
-            maxAtPrev = max;
+            max = Math.max(current + prevprev, prev);
+            prevprev = prev;
+            prev = max;
         }
-        return maxAtPrev;
+        return max;
     }
 }

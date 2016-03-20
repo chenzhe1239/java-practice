@@ -5,6 +5,7 @@ public class HouseRobberTest {
         int max = 0;
         int prev = 0;
         int prevprev = 0;
+
         for (int current : nums) {
             max = Math.max(current + prevprev, prev);
             prevprev = prev;
