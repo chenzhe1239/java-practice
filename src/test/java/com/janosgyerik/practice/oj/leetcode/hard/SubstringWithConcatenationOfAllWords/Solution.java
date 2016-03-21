@@ -2,16 +2,16 @@ package com.janosgyerik.practice.oj.leetcode.hard.SubstringWithConcatenationOfAl
 
 import java.util.*;
 
-// https://leetcode.com/problems/substring-with-concatenation-of-all-words/
-// TLE on input: "a" * 5000, ["a" * 5000]
+
 public class Solution {
     public List<Integer> findSubstring(String s, String[] words) {
         List<Integer> indices = new ArrayList<>();
 
         int wordsLen = words[0].length() * words.length;
 
+        Counter counter = new Counter(words);
         for (int pos = 0; pos <= s.length() - wordsLen; ++pos) {
-            if (contains(s, pos, new Counter(words))) {
+            if (contains(s, pos, new Counter(counter))) {
                 indices.add(pos);
             }
         }
@@ -20,9 +20,14 @@ public class Solution {
     }
 
     static class Counter {
-        private Map<String, Integer> counts = new HashMap<>();
+        private final Map<String, Integer> counts;
+
+        public Counter(Counter other) {
+            counts = new HashMap<>(other.counts);
+        }
 
         public Counter(String[] words) {
+            counts = new HashMap<>();
             for (String word : words) {
                 Integer count = counts.get(word);
                 if (count == null) {
