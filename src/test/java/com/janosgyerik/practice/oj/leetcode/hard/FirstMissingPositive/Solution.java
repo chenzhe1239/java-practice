@@ -2,24 +2,21 @@ package com.janosgyerik.practice.oj.leetcode.hard.FirstMissingPositive;
 
 public class Solution {
     public int firstMissingPositive(int[] nums) {
-        int min = findMin(nums);
-        if (1 < min) {
+        if (nums.length == 0) {
             return 1;
         }
 
-        for (int i = 0; i < nums.length; ) {
-            if (0 <= nums[i] && nums[i] - min < nums.length
-                    && nums[i] != min + i
-                    && nums[nums[i] - min] != nums[i]) {
-                swap(nums, i, nums[i] - min);
-            } else {
-                i++;
+        for (int i = 0; i < nums.length; i++) {
+            while (0 < nums[i] && nums[i] - 1 < nums.length
+                    && nums[i] != i + 1
+                    && nums[nums[i] - 1] != nums[i]) {
+                swap(nums, i, nums[i] - 1);
             }
         }
 
         for (int i = 0; i < nums.length; i++) {
-            if (nums[i] != min + i) {
-                return min + i;
+            if (nums[i] != i + 1) {
+                return i + 1;
             }
         }
         return nums[nums.length - 1] + 1;
@@ -29,16 +26,5 @@ public class Solution {
         int tmp = nums[i];
         nums[i] = nums[j];
         nums[j] = tmp;
-    }
-
-    private int findMin(int[] nums) {
-        int min = Integer.MAX_VALUE;
-        for (int num : nums) {
-            if (num < 0) {
-                continue;
-            }
-            min = Math.min(min, num);
-        }
-        return min;
     }
 }
