@@ -3,13 +3,24 @@ package com.janosgyerik.practice.oj.hackerrank.PoisonousPlants;
 import java.util.*;
 
 public class Solution {
+    private static class ValueAndDays {
+        final int value;
+        final int days;
+
+        ValueAndDays(int value, int days) {
+            this.value = value;
+            this.days = days;
+        }
+    }
+
     static int countDays(List<Integer> plants) {
         int maxDays = 0;
         int days = 0;
 
         Iterator<Integer> it = plants.iterator();
         int prev = it.next();
-        int min = prev;
+        Stack<ValueAndDays> mins = new Stack<>();
+        mins.push(new ValueAndDays(prev, 0));
         boolean increasing = false;
         while (it.hasNext()) {
             int current = it.next();
@@ -20,16 +31,22 @@ public class Solution {
                 increasing = true;
             } else {
                 increasing = false;
-                if (min < current) {
-                    days++;
+                while (!mins.isEmpty() && current < mins.peek().value) {
+                    mins.pop();
+                }
+                if (mins.isEmpty()) {
+                    mins.push(new ValueAndDays(current, days));
+                }
+                if (mins.peek().value < current) {
+                    days = mins.peek().days + 1;
+                    mins.push(new ValueAndDays(current, days));
                 } else {
                     days = 0;
                 }
             }
             maxDays = Math.max(maxDays, days);
             prev = current;
-            min = Math.min(min, current);
-//            System.out.printf("%s %s\n", current, days);
+            System.out.printf("%s %s\n", current, days);
         }
         return maxDays;
     }
