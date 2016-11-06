@@ -4,13 +4,12 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
 
+// TODO time limit exceeded
 public class Solution {
     public int maximalRectangle(char[][] matrix) {
         Queue<Rectangle> queue = initQueue(matrix);
 
-        int max = maxHorizontal(matrix);
-        max = Math.max(max, maxVertical(matrix));
-
+        int max = 0;
         while (!queue.isEmpty()) {
             Rectangle rectangle = queue.poll();
             max = Math.max(max, rectangle.width * rectangle.height);
@@ -20,62 +19,12 @@ public class Solution {
         return max;
     }
 
-    private int maxVertical(char[][] matrix) {
-        int max = 0;
-        for (int col = 0; col < matrix[0].length; col++) {
-            max = Math.max(max, maxVertical(matrix, col));
-        }
-        return max;
-    }
-
-    private int maxVertical(char[][] matrix, int col) {
-        int max = 0;
-        int current = 0;
-        for (char[] row : matrix) {
-            char c = row[col];
-            if (c == '1') {
-                current++;
-                max = Math.max(max, current);
-            } else {
-                current = 0;
-            }
-        }
-        return max;
-    }
-
-    private int maxHorizontal(char[][] matrix) {
-        int max = 0;
-        for (char[] row : matrix) {
-            max = Math.max(max, maxHorizontal(row));
-        }
-        return max;
-    }
-
-    private int maxHorizontal(char[] row) {
-        int max = 0;
-        int current = 0;
-        for (char c : row) {
-            if (c == '1') {
-                current++;
-                max = Math.max(max, current);
-            } else {
-                current = 0;
-            }
-        }
-        return max;
-    }
-
     private Queue<Rectangle> initQueue(char[][] matrix) {
         Queue<Rectangle> queue = new LinkedList<>();
         for (int row = 0; row < matrix.length; row++) {
             for (int col = 0; col < matrix[row].length; col++) {
                 if (isSet(matrix, col, row)) {
-                    if (isSet(matrix, col + 1, row)) {
-                        queue.add(new Rectangle(matrix, col, row, 2, 1));
-                    }
-                    if (isSet(matrix, col, row + 1)) {
-                        queue.add(new Rectangle(matrix, col, row, 1, 2));
-                    }
+                    queue.add(new Rectangle(matrix, col, row, 1, 1));
                 }
             }
         }
@@ -98,9 +47,6 @@ public class Solution {
         }
 
         Optional<Rectangle> expandRight() {
-            if (height == 1) {
-                return Optional.empty();
-            }
             for (int i = top; i < top + height; i++) {
                 if (!isSet(left + width, i)) {
                     return Optional.empty();
@@ -110,9 +56,6 @@ public class Solution {
         }
 
         Optional<Rectangle> expandDown() {
-            if (width == 1) {
-                return Optional.empty();
-            }
             for (int i = left; i < left + width; i++) {
                 if (!isSet(i, top + height)) {
                     return Optional.empty();
