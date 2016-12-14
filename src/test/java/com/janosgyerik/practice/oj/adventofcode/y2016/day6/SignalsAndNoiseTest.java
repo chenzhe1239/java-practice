@@ -1,0 +1,719 @@
+package com.janosgyerik.practice.oj.adventofcode.y2016.day6;
+
+import org.junit.Test;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class SignalsAndNoiseTest {
+    String[] sampleInput = split(
+            "eedadn\n" +
+            "drvtee\n" +
+            "eandsr\n" +
+            "raavrd\n" +
+            "atevrs\n" +
+            "tsrnev\n" +
+            "sdttsa\n" +
+            "rasrtv\n" +
+            "nssdts\n" +
+            "ntnada\n" +
+            "svetve\n" +
+            "tesnvt\n" +
+            "vntsnd\n" +
+            "vrdear\n" +
+            "dvrsen\n" +
+            "enarar");
+
+    String[] input = split("uflevqwk\n" +
+            "rrddgrgk\n" +
+            "jownyelh\n" +
+            "sskcoaaq\n" +
+            "cfngremt\n" +
+            "jntgxujt\n" +
+            "wiatbvvv\n" +
+            "ilspdbkl\n" +
+            "cwgqwrrq\n" +
+            "acusllxy\n" +
+            "kidxuluo\n" +
+            "gxunfaxm\n" +
+            "rfuifzfd\n" +
+            "qidkyaow\n" +
+            "tjqlatwp\n" +
+            "nhxmfxyx\n" +
+            "tanronrx\n" +
+            "qzjpwgvl\n" +
+            "junnfzts\n" +
+            "eumwzjzv\n" +
+            "eonigpng\n" +
+            "dufrqxjd\n" +
+            "isqxdaej\n" +
+            "hpqakcge\n" +
+            "sywhphbi\n" +
+            "fjskaqwd\n" +
+            "hmyvgeqj\n" +
+            "tpegglex\n" +
+            "vpbzqqfp\n" +
+            "jznqymjw\n" +
+            "ngnyjegm\n" +
+            "qgpocbnr\n" +
+            "oaqwlpkp\n" +
+            "jiowhrte\n" +
+            "qamdygfg\n" +
+            "ylvnybbb\n" +
+            "makvhqsf\n" +
+            "gjjnnbsg\n" +
+            "xghnzlkw\n" +
+            "sfkcmopw\n" +
+            "wiyvydqu\n" +
+            "bxczqgba\n" +
+            "pcrlchbn\n" +
+            "vvhewabm\n" +
+            "nnftdojn\n" +
+            "icywzuwc\n" +
+            "wiokylcn\n" +
+            "qmxppodk\n" +
+            "yzedohag\n" +
+            "fvjrfyrj\n" +
+            "tfkaufmo\n" +
+            "xkemipkv\n" +
+            "iyatsikk\n" +
+            "eafrhudq\n" +
+            "nfyghtau\n" +
+            "wttrrdvo\n" +
+            "wauvzvhd\n" +
+            "bzzblbam\n" +
+            "sswyuaow\n" +
+            "mvufeors\n" +
+            "iumazrzo\n" +
+            "clhrmzdc\n" +
+            "czvoaqyr\n" +
+            "plrvvzjb\n" +
+            "yjxrypwt\n" +
+            "rinqjksp\n" +
+            "mmigjtpp\n" +
+            "abrmadmr\n" +
+            "fvmijrpg\n" +
+            "jxwuzsdq\n" +
+            "gqahdshs\n" +
+            "lumftsyb\n" +
+            "fkecsohh\n" +
+            "bpsxszgv\n" +
+            "qqepgxkb\n" +
+            "iacloyjn\n" +
+            "xtrurnvi\n" +
+            "owrjjche\n" +
+            "ittraljs\n" +
+            "ekdxrdsu\n" +
+            "kxmzdpol\n" +
+            "uekohjhp\n" +
+            "rlxydeli\n" +
+            "gzqnbjzd\n" +
+            "zwywoena\n" +
+            "hgrhtngu\n" +
+            "cyderbzp\n" +
+            "mqwbnimx\n" +
+            "ygxhrzpc\n" +
+            "viqvwmir\n" +
+            "ajwdsqnv\n" +
+            "vycvuquh\n" +
+            "rlqburdz\n" +
+            "nrjikkqz\n" +
+            "byiuygpb\n" +
+            "qcwlrnvs\n" +
+            "iqucoawp\n" +
+            "utoaavak\n" +
+            "ggjbwqvk\n" +
+            "issedmzt\n" +
+            "mmapzgrn\n" +
+            "iwdadrtc\n" +
+            "dpeszvwm\n" +
+            "zgggkijl\n" +
+            "gdneqfqi\n" +
+            "wyaqgjis\n" +
+            "jvowmavy\n" +
+            "vxvesfbr\n" +
+            "jsqmzcxq\n" +
+            "fdtbsrpl\n" +
+            "avmjobsz\n" +
+            "nelqcrir\n" +
+            "bohozvfw\n" +
+            "pgnbpxve\n" +
+            "zhzhlbox\n" +
+            "hgmkxgqq\n" +
+            "lcgcoyic\n" +
+            "dxgjxzvr\n" +
+            "sssgrtay\n" +
+            "dhtzcyfj\n" +
+            "qcovunah\n" +
+            "lekkbwfw\n" +
+            "uwdrgkrm\n" +
+            "brlyetlg\n" +
+            "dputvtfm\n" +
+            "xkbgowvo\n" +
+            "wdqnyjyj\n" +
+            "lpkuxlqb\n" +
+            "kejpkgbf\n" +
+            "urfwmenq\n" +
+            "tzugmuca\n" +
+            "zmtfxlpn\n" +
+            "bmuzgzco\n" +
+            "swainwsv\n" +
+            "cfmiaylt\n" +
+            "vrzplmiu\n" +
+            "ekoixwzr\n" +
+            "sqbthhmj\n" +
+            "kssmukqk\n" +
+            "kgscswjx\n" +
+            "owpvilla\n" +
+            "wtzxjouf\n" +
+            "cauhexcn\n" +
+            "dprkkeah\n" +
+            "pxptpwlv\n" +
+            "btfmykon\n" +
+            "lyvhwdcf\n" +
+            "uojsofzg\n" +
+            "ubqslzwj\n" +
+            "pfvuloqf\n" +
+            "hrucrkyt\n" +
+            "urtjueoq\n" +
+            "vqiibvdk\n" +
+            "hvdtsupq\n" +
+            "mryedbuz\n" +
+            "yplctgby\n" +
+            "ftqrhyal\n" +
+            "oqeuxwsh\n" +
+            "rclpgvjw\n" +
+            "mhcrzrcg\n" +
+            "covwlwho\n" +
+            "gjhxzapi\n" +
+            "egzhpzza\n" +
+            "inbmkkbh\n" +
+            "ezjvqrkb\n" +
+            "szrmrsxh\n" +
+            "ajyakvvs\n" +
+            "hlmfstfp\n" +
+            "wghyzvuf\n" +
+            "ydidinar\n" +
+            "oirwjiqo\n" +
+            "udtjksso\n" +
+            "jwnaosru\n" +
+            "lhdyuucj\n" +
+            "ekeifpwp\n" +
+            "djefaqtt\n" +
+            "rbwqvkax\n" +
+            "lcaupsdz\n" +
+            "ovjjidmx\n" +
+            "hvpdenve\n" +
+            "qdlqusku\n" +
+            "enlupxlr\n" +
+            "adtrmoyy\n" +
+            "nnlluigo\n" +
+            "gbyotoqo\n" +
+            "ajavmaun\n" +
+            "xtanzcix\n" +
+            "fcqgsiuw\n" +
+            "jbyyhitl\n" +
+            "ctqkoeic\n" +
+            "vusvexhj\n" +
+            "dywmkciv\n" +
+            "uegfjdip\n" +
+            "sgksturi\n" +
+            "fnppgtvo\n" +
+            "epzgllth\n" +
+            "zpkurdxk\n" +
+            "kkesnnqe\n" +
+            "tkepiakd\n" +
+            "gukbfvsw\n" +
+            "evgdijdz\n" +
+            "rbildand\n" +
+            "fxmpwuvs\n" +
+            "fmnzyqea\n" +
+            "vfktdoao\n" +
+            "whgkcomu\n" +
+            "umfodiid\n" +
+            "afvjmwrf\n" +
+            "lonuybho\n" +
+            "lhopnkwv\n" +
+            "bxekeeki\n" +
+            "lzdgfhyo\n" +
+            "hobjehhm\n" +
+            "bjsyzipy\n" +
+            "bgizykuf\n" +
+            "uktmpbnb\n" +
+            "qxxdsxro\n" +
+            "dqxmncoz\n" +
+            "abqqwmei\n" +
+            "kyvcmjfb\n" +
+            "fngzcrzk\n" +
+            "dythedbo\n" +
+            "oejkgzke\n" +
+            "hocnhppm\n" +
+            "ogugyxhi\n" +
+            "ncikbndl\n" +
+            "amwuhiuf\n" +
+            "psrllnmr\n" +
+            "xdhbvbcc\n" +
+            "hobbvqhw\n" +
+            "phiwblgs\n" +
+            "wrixgmhb\n" +
+            "vvmrbduw\n" +
+            "nhakqryr\n" +
+            "vsbbxaur\n" +
+            "yfdsecin\n" +
+            "kacwteta\n" +
+            "efvhzgyg\n" +
+            "lrjzpefq\n" +
+            "zrjvuqrv\n" +
+            "jcwnbmvh\n" +
+            "wjuvxmou\n" +
+            "nqcvtdcg\n" +
+            "ucpnrgxc\n" +
+            "uswrjjdi\n" +
+            "mmyjmojk\n" +
+            "wvcagtyn\n" +
+            "recxcumh\n" +
+            "qvrxogte\n" +
+            "ljfyiyme\n" +
+            "olmihwjb\n" +
+            "plzycdty\n" +
+            "qnyoxrfx\n" +
+            "onsuhsdi\n" +
+            "asbocmtb\n" +
+            "jvndrjvs\n" +
+            "mgzoinlt\n" +
+            "rjfpztzt\n" +
+            "fmdjpiqu\n" +
+            "goofefiz\n" +
+            "iqhvllgl\n" +
+            "culamtyk\n" +
+            "myxvmukc\n" +
+            "cwvftlqc\n" +
+            "lluqawec\n" +
+            "mlmvmwfm\n" +
+            "utrfawmz\n" +
+            "olzrgvmv\n" +
+            "zisabtap\n" +
+            "fcuxuvnj\n" +
+            "qyimlura\n" +
+            "tlaltbsi\n" +
+            "uyiyareq\n" +
+            "hpztunnb\n" +
+            "drfdwtfz\n" +
+            "rosbuudb\n" +
+            "tioknlid\n" +
+            "gddxjxwj\n" +
+            "aziakvby\n" +
+            "hhttoluv\n" +
+            "kkarvjkn\n" +
+            "puprxohy\n" +
+            "xjcxgzcv\n" +
+            "dxuyhpkq\n" +
+            "vclyijgd\n" +
+            "redbicst\n" +
+            "gqbttgxu\n" +
+            "bffdncnd\n" +
+            "xskpmkio\n" +
+            "skclmsum\n" +
+            "tznntmoj\n" +
+            "gzhhsfwc\n" +
+            "ywbppcgx\n" +
+            "byrbeaxe\n" +
+            "hwrlakpf\n" +
+            "crlwqcgj\n" +
+            "vhkaxgcz\n" +
+            "wftehney\n" +
+            "tbtmrkxb\n" +
+            "fusuyqka\n" +
+            "rwpnxmhx\n" +
+            "rzqonvaz\n" +
+            "ybpwtppo\n" +
+            "cnverhwt\n" +
+            "vdtfgbux\n" +
+            "palvhikl\n" +
+            "kzhqkdll\n" +
+            "qqklvdyg\n" +
+            "jmladlee\n" +
+            "nepjydti\n" +
+            "aedwmblx\n" +
+            "ramkmzgr\n" +
+            "wsolkgti\n" +
+            "wwfrciju\n" +
+            "roocdhyw\n" +
+            "osstwykz\n" +
+            "jkpkhqew\n" +
+            "aqmgjjjd\n" +
+            "tajwlxnv\n" +
+            "plhodkvv\n" +
+            "xcahqxwi\n" +
+            "zylepnec\n" +
+            "pmlywqoo\n" +
+            "ospgrrdu\n" +
+            "wblhxxir\n" +
+            "iqfzvlpt\n" +
+            "bsofcsig\n" +
+            "iepxcvwy\n" +
+            "guugpghl\n" +
+            "ikwdlzfs\n" +
+            "yomdcwxz\n" +
+            "urbpcbrh\n" +
+            "wtrzcfiv\n" +
+            "kaapqrqk\n" +
+            "ienueukt\n" +
+            "digyopeb\n" +
+            "kfgclsod\n" +
+            "henjotok\n" +
+            "nkzjuoxm\n" +
+            "xohkdunh\n" +
+            "gubuvylj\n" +
+            "lugeqspf\n" +
+            "xdkcfccg\n" +
+            "sjnkiffo\n" +
+            "xbviiody\n" +
+            "juwtshlv\n" +
+            "hdjfddmc\n" +
+            "ipftsslh\n" +
+            "zggnepcm\n" +
+            "rvccowqn\n" +
+            "swmcofau\n" +
+            "oksngpvy\n" +
+            "bjcthagw\n" +
+            "tmzxsyqs\n" +
+            "rebascnq\n" +
+            "yxfixusy\n" +
+            "iwewlkxk\n" +
+            "nndfkckq\n" +
+            "uhvaxjal\n" +
+            "fcgqdlru\n" +
+            "tkhlguoa\n" +
+            "wsoefgmr\n" +
+            "eebcbzeh\n" +
+            "asmepwma\n" +
+            "dqbujtpa\n" +
+            "xjvmupwe\n" +
+            "rrufqppv\n" +
+            "yiaqkmsf\n" +
+            "cvivqgtm\n" +
+            "yrxfrfdi\n" +
+            "bjkmyhdp\n" +
+            "kwdvoyvn\n" +
+            "nykyqaxg\n" +
+            "zqioepkg\n" +
+            "dwxantqi\n" +
+            "bklxeoqh\n" +
+            "rlxawoax\n" +
+            "bdpfhqkn\n" +
+            "fyzpjymf\n" +
+            "meoqawzz\n" +
+            "zowwxenu\n" +
+            "zhqpnbtv\n" +
+            "cubwtngh\n" +
+            "srkxkkbi\n" +
+            "kxcdvznw\n" +
+            "ipsllqbn\n" +
+            "imecbjsm\n" +
+            "sehlcine\n" +
+            "iogdiznk\n" +
+            "gfovshxc\n" +
+            "zkofnscb\n" +
+            "zqiffwrz\n" +
+            "zizfepxw\n" +
+            "abknfcxu\n" +
+            "hmqtwdqf\n" +
+            "kehagtsw\n" +
+            "xsemphlf\n" +
+            "qwkuvbea\n" +
+            "febqsrpl\n" +
+            "cwpiafgk\n" +
+            "adqsvihd\n" +
+            "meclknwc\n" +
+            "rpchvmja\n" +
+            "mpqsuevs\n" +
+            "yoebikcy\n" +
+            "siyqnsga\n" +
+            "dhoonzsx\n" +
+            "zwydsejp\n" +
+            "naytcuwv\n" +
+            "ftbcjdte\n" +
+            "kqckamex\n" +
+            "nirapuiw\n" +
+            "fayqugxd\n" +
+            "whdbfmwl\n" +
+            "pocevsjf\n" +
+            "pxoxjycs\n" +
+            "lpfwtpox\n" +
+            "yaqigvsj\n" +
+            "okiszxlp\n" +
+            "mlxwdfoq\n" +
+            "vjyckcjt\n" +
+            "mvsefvcb\n" +
+            "yrimofcf\n" +
+            "qbxahhop\n" +
+            "uarjvpep\n" +
+            "gdtednol\n" +
+            "damojpod\n" +
+            "vtrmgubl\n" +
+            "ndyuwayp\n" +
+            "jhwjhbwx\n" +
+            "cgjenmep\n" +
+            "hawhcszs\n" +
+            "ddaxxpec\n" +
+            "qpruxjsi\n" +
+            "nczelirl\n" +
+            "ukesixzr\n" +
+            "yfoqzfbk\n" +
+            "kdgbriyq\n" +
+            "dbjinxzc\n" +
+            "tqjuhice\n" +
+            "ntbgchkh\n" +
+            "tlfxuvfj\n" +
+            "ynwfakyu\n" +
+            "xivxijyl\n" +
+            "hsemlrom\n" +
+            "oaaebmru\n" +
+            "fskqiiiu\n" +
+            "dbxrjzqd\n" +
+            "fuelfktt\n" +
+            "rknawwlh\n" +
+            "pdyuhufu\n" +
+            "pmvsoiwp\n" +
+            "qcygmygy\n" +
+            "lhovvslf\n" +
+            "vrxdvmfq\n" +
+            "crgndvzy\n" +
+            "gyzzesbl\n" +
+            "ankdtxyy\n" +
+            "wfrurbrd\n" +
+            "wrmpakxf\n" +
+            "ubczqfpb\n" +
+            "sohcpnnk\n" +
+            "lrjfiylr\n" +
+            "vdwmlkne\n" +
+            "tlekcnym\n" +
+            "jadicszq\n" +
+            "kztcxzwn\n" +
+            "qptbjfuf\n" +
+            "gjhhzhuh\n" +
+            "myjjzyzf\n" +
+            "akxabrde\n" +
+            "lgnystrm\n" +
+            "zxtuokjq\n" +
+            "bffdkzun\n" +
+            "modssgbc\n" +
+            "xvedbysj\n" +
+            "czpdqkdn\n" +
+            "qlzprpuj\n" +
+            "abuoeoex\n" +
+            "ymxzkccu\n" +
+            "jbslwqku\n" +
+            "wgehntzj\n" +
+            "zivljhpa\n" +
+            "jsustyir\n" +
+            "xglfyyun\n" +
+            "emitjtfp\n" +
+            "jyltuhtp\n" +
+            "vbqgtwni\n" +
+            "iojlycew\n" +
+            "bhrrxbcg\n" +
+            "vhswcbaz\n" +
+            "tzsobxfz\n" +
+            "hpcbvvnt\n" +
+            "cuilflxq\n" +
+            "ohklemxz\n" +
+            "aklsjxas\n" +
+            "qczwvhdv\n" +
+            "kecxvvua\n" +
+            "nnlcshhz\n" +
+            "gtxeqhed\n" +
+            "ebxirqft\n" +
+            "xawqimpq\n" +
+            "ehizwpau\n" +
+            "gjgobwcc\n" +
+            "wuojmfgr\n" +
+            "bubtyubk\n" +
+            "mfnjqxsd\n" +
+            "bzuobqeg\n" +
+            "cnwsyfqt\n" +
+            "difjbhys\n" +
+            "awvnvqxb\n" +
+            "eblmxhlf\n" +
+            "enoeneis\n" +
+            "ispzlatd\n" +
+            "pvtyulpk\n" +
+            "lrjnrogd\n" +
+            "dfxsbdhb\n" +
+            "hivbahmg\n" +
+            "azpiqnci\n" +
+            "ktcmajzb\n" +
+            "mfngiemn\n" +
+            "xtktrzne\n" +
+            "xydgmtrj\n" +
+            "ittdjyqt\n" +
+            "pvrapfhj\n" +
+            "pfpqmubd\n" +
+            "eemyoxye\n" +
+            "eyorfilw\n" +
+            "jmztxeql\n" +
+            "oybsnyus\n" +
+            "nihbjowm\n" +
+            "gknzlcem\n" +
+            "chcslofr\n" +
+            "zbpsfdsg\n" +
+            "dxbzaqos\n" +
+            "cqzhujhq\n" +
+            "qlvbwfsn\n" +
+            "ydgipmtr\n" +
+            "fhbcfors\n" +
+            "enxopgsy\n" +
+            "sbtdtgjn\n" +
+            "klapbmbk\n" +
+            "qxuqemnb\n" +
+            "pspxwtlz\n" +
+            "vnorcada\n" +
+            "qcmhrdcg\n" +
+            "lxwmeejb\n" +
+            "mxgueeih\n" +
+            "rggqkdvj\n" +
+            "kwyrmqms\n" +
+            "nzfhpzmc\n" +
+            "ohrlyols\n" +
+            "vrzgflzw\n" +
+            "zujmieye\n" +
+            "smzjujaa\n" +
+            "mwfontrh\n" +
+            "suhnkihy\n" +
+            "tpavgxze\n" +
+            "tjzbnyvy\n" +
+            "leakgvti\n" +
+            "cptoaqgx\n" +
+            "pegikbtg\n" +
+            "ocggetmv\n" +
+            "xxiytrxf\n" +
+            "yqpipjfa\n" +
+            "tihrfpez\n" +
+            "ukxiajhk\n" +
+            "xighnfgf\n" +
+            "sgcitckm\n" +
+            "tbvhtnmr\n" +
+            "jwbooowx\n" +
+            "ldnjtipa\n" +
+            "xpehmloo\n" +
+            "stxkplmo\n" +
+            "lgqddrhb\n" +
+            "hdhsqxdt\n" +
+            "daxztiim\n" +
+            "pcafwglc\n" +
+            "ynhyvsjt\n" +
+            "lujyvuug\n" +
+            "pnicccbq\n" +
+            "stmwwjec\n" +
+            "zzsysevl\n" +
+            "ypvbqpfo\n" +
+            "tljegcgq\n" +
+            "bqanmeji\n" +
+            "ejqeknda\n" +
+            "jndzdwde\n" +
+            "pneveaiv\n" +
+            "gjwpfrjz\n" +
+            "zzwsmfss\n" +
+            "ylakaful\n" +
+            "gmyzwvot\n" +
+            "toiqhrrh\n" +
+            "htszfvzt\n" +
+            "hagybnpz\n" +
+            "ocliwiav\n" +
+            "evzlyabp\n" +
+            "txppqmkk\n" +
+            "xovsnwyn\n" +
+            "smsbqsax\n" +
+            "anysxgxd\n" +
+            "ztqoskny\n" +
+            "uuvozsty\n" +
+            "nynkbdot\n" +
+            "nxpgfyyw\n" +
+            "vxftiuty\n" +
+            "svijqamw\n" +
+            "rqdjnwdm\n" +
+            "vqhcjbqp\n" +
+            "mibabxxi\n" +
+            "bffhbltc\n" +
+            "zotfzcbx\n" +
+            "ozsxkzzh\n" +
+            "mluqlfrm\n" +
+            "wvrnhdvg\n" +
+            "fmyniyor\n" +
+            "kcdxacgg\n" +
+            "oxfzqjba\n" +
+            "fdhedghj\n" +
+            "otytinze\n" +
+            "uufwzhll\n" +
+            "jnlztauj\n" +
+            "ktujpjae"
+    );
+
+    private String[] split(String input) {
+        return input.split("\n");
+    }
+
+    char findMostFrequent(String[] lines, int pos) {
+        return findMostFrequent(lines, pos, Comparator.comparingLong(Map.Entry::getValue));
+    }
+
+    char findMostFrequent(String[] lines, int pos, Comparator<Map.Entry<Character, Long>> comparator) {
+        return Stream.of(lines).map(line -> line.charAt(pos))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .max(comparator)
+                .map(Map.Entry::getKey)
+                .orElse('\0');
+    }
+
+    @Test
+    public void test_most_frequent_first_is_e() {
+        assertThat(findMostFrequent(sampleInput, 0)).isEqualTo('e');
+    }
+
+    @Test
+    public void test_most_frequent_second_is_a() {
+        assertThat(findMostFrequent(sampleInput, 1)).isEqualTo('a');
+    }
+
+    String findMostFrequent(String[] lines) {
+        return findMostFrequent(lines, Comparator.comparingLong(Map.Entry::getValue));
+    }
+
+    String findMostFrequent(String[] lines, Comparator<Map.Entry<Character, Long>> comparator) {
+        char[] chars = new char[lines[0].length()];
+        IntStream.range(0, lines[0].length())
+                .forEach(i -> chars[i] = findMostFrequent(lines, i, comparator));
+        return new String(chars);
+    }
+
+    @Test
+    public void test_most_frequent_for_sample_is_easter() {
+        assertThat(findMostFrequent(sampleInput)).isEqualTo("easter");
+    }
+
+    @Test
+    public void test_most_frequent_for_input_is_wkbvmikb() {
+        assertThat(findMostFrequent(input)).isEqualTo("wkbvmikb");
+    }
+
+    @Test
+    public void test_least_frequent_for_sample_is_advent() {
+        Comparator<Map.Entry<Character, Long>> comparator =
+                (e1, e2) -> -Long.compare(e1.getValue(), e2.getValue());
+        assertThat(findMostFrequent(sampleInput, comparator)).isEqualTo("advent");
+    }
+
+    @Test
+    public void test_least_frequent_for_input_is_evakwaga() {
+        Comparator<Map.Entry<Character, Long>> comparator =
+                (e1, e2) -> -Long.compare(e1.getValue(), e2.getValue());
+        assertThat(findMostFrequent(input, comparator)).isEqualTo("evakwaga");
+    }
+}
