@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
 
-// TODO time limit exceeded
+// TODO time limit exceeded on test case 63/66
 public class Solution {
     public int maximalRectangle(char[][] matrix) {
         Queue<Rectangle> queue = initQueue(matrix);

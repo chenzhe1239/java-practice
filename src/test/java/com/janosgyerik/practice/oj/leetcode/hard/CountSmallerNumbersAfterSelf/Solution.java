@@ -3,7 +3,7 @@ package com.janosgyerik.practice.oj.leetcode.hard.CountSmallerNumbersAfterSelf;
 import java.util.*;
 
 // https://leetcode.com/problems/count-of-smaller-numbers-after-self/
-// TLE on very large input: [5183,2271,3067,539,8939,2999,9264,737,3974,5846,-210,9278,5800,...]
+// TLE on very large input, test case 15/16: [5183,2271,3067,539,8939,2999,9264,737,3974,5846,-210,9278,5800,...]
 public class Solution {
     public List<Integer> countSmaller(int[] nums) {
         List<Integer> smaller = new ArrayList<>(nums.length);
