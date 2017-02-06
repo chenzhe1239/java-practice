@@ -2,43 +2,47 @@ package com.janosgyerik.practice.oj.leetcode.hard.CountSmallerNumbersAfterSelf;
 
 import java.util.*;
 
-// https://leetcode.com/problems/count-of-smaller-numbers-after-self/
-// TLE on very large input, test case 15/16: [5183,2271,3067,539,8939,2999,9264,737,3974,5846,-210,9278,5800,...]
 public class Solution {
     public List<Integer> countSmaller(int[] nums) {
-        List<Integer> smaller = new ArrayList<>(nums.length);
+        List<Integer> counts = new LinkedList<>();
 
-        SortedMap<Integer, Integer> counts = createCounts(nums);
+        SortedList sorted = new SortedList(nums.length);
 
-        for (int num : nums) {
-            counts.put(num, counts.get(num) - 1);
-            smaller.add(countSmaller(counts, num));
+        for (int i = nums.length - 1; i >= 0; i--) {
+            int num = nums[i];
+            int index = sorted.countSmaller(num);
+            counts.add(0, index);
+            sorted.insert(index, num);
         }
 
-        return smaller;
-    }
-
-    private int countSmaller(SortedMap<Integer, Integer> counts, int value) {
-        int count = 0;
-        for (Map.Entry<Integer, Integer> entry : counts.entrySet()) {
-            int num = entry.getKey();
-            if (num >= value) {
-                break;
-            }
-            count += entry.getValue();
-        }
-        return count;
-    }
-
-    private SortedMap<Integer, Integer> createCounts(int[] nums) {
-        SortedMap<Integer, Integer> counts = new TreeMap<>();
-        for (int num : nums) {
-            Integer count = counts.get(num);
-            if (count == null) {
-                count = 0;
-            }
-            counts.put(num, count + 1);
-        }
         return counts;
+    }
+
+    static class SortedList {
+
+        private final List<Integer> nums;
+
+        public SortedList(int capacity) {
+            this.nums = new ArrayList<>(capacity);
+        }
+
+        public int countSmaller(int num) {
+            int index = Collections.binarySearch(nums, num);
+            if (index < 0) {
+                return -1 - index;
+            }
+            while (index > 0 && nums.get(index - 1) == num) {
+                index--;
+            }
+            return index;
+        }
+
+        public void insert(int index, int num) {
+            nums.add(index, num);
+        }
+
+        public List<Integer> list() {
+            return Collections.unmodifiableList(nums);
+        }
     }
 }
