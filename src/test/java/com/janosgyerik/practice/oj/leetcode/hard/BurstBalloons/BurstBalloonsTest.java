@@ -2,6 +2,12 @@ package com.janosgyerik.practice.oj.leetcode.hard.BurstBalloons;
 
 import org.junit.Test;
 
+import java.sql.ResultSet;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 public class BurstBalloonsTest {
@@ -64,5 +70,180 @@ public class BurstBalloonsTest {
     @Test
     public void should_get_1086136_for_9_76_64_21_97_60() {
         assertEquals(1086136, solve(9, 76, 64, 21, 97, 60));
+    }
+
+    int compute(int[] nums_, int... eliminate) {
+        List<Integer> nums = IntStream.of(nums_).boxed().collect(Collectors.toList());
+        int sum = 0;
+        for (int num : eliminate) {
+            int index = nums.indexOf(num);
+            int left = 1;
+            int right = 1;
+            if (index > 0) {
+                left = nums.get(index - 1);
+            }
+            if (index < nums.size() - 1) {
+                right = nums.get(index + 1);
+            }
+            sum += left * nums.get(index) * right;
+            nums.remove(index);
+        }
+        return sum;
+    }
+
+    int compute2(int[] nums_, int... eliminate) {
+        List<Integer> nums = IntStream.of(nums_).boxed().collect(Collectors.toList());
+        boolean[] done = new boolean[eliminate.length];
+        int sum = 0;
+        for (int index : eliminate) {
+            int left = 0;
+            for (int i = index - 1; i >= 0; i--) {
+                if (!done[i]) {
+                    left = nums.get(i);
+                    break;
+                }
+            }
+            if (left == 0) left = 1;
+
+            int right = 0;
+            for (int i = index + 1; i < done.length; i++) {
+                if (!done[i]) {
+                    right = nums.get(i);
+                    break;
+                }
+            }
+            if (right == 0) right = 1;
+
+            done[index] = true;
+            sum += left * nums.get(index) * right;
+        }
+        return sum;
+    }
+
+    //    @Test
+    public void test_compute() {
+        assertThat(compute(new int[]{3, 1, 5, 8}, 1, 5, 3, 8)).isEqualTo(167);
+//        assertThat(compute(new int[]{9, 76, 64, 21, 97, 60}, 21, 64, 76, 9, 60, 97)).isEqualTo(1086136);
+//        assertThat(compute(new int[]{9, 76, 64, 21, 97, 60}, 21, 64, 76, 9, 60, 97)).isEqualTo(1086136);
+        List<Integer> nums = Arrays.asList(9, 76, 64, 21, 97, 60);
+        List<List<Integer>> all = new ArrayList<>();
+
+        Queue<List<Integer>> perms = new LinkedList<>();
+        Queue<List<Integer>> choices = new LinkedList<>();
+        perms.add(Collections.emptyList());
+        choices.add(nums);
+
+        while (!perms.isEmpty()) {
+            List<Integer> perm = perms.poll();
+            List<Integer> ch = choices.poll();
+            if (ch.isEmpty()) {
+                all.add(perm);
+                continue;
+            }
+            for (int choice : ch) {
+                List<Integer> permCopy = new ArrayList<>(perm);
+                List<Integer> chCopy = new ArrayList<>(ch);
+                permCopy.add(choice);
+                perms.add(permCopy);
+                chCopy.remove((Integer) choice);
+                choices.add(chCopy);
+            }
+        }
+        int[] x = nums.stream().mapToInt(i -> i).toArray();
+        for (List<Integer> list : all) {
+            int[] arr = list.stream().mapToInt(i -> i).toArray();
+            int val = compute(x, arr);
+            if (val > 1080000) {
+                System.out.println(Arrays.toString(arr));
+                System.out.println(val);
+            }
+        }
+    }
+
+    @Test
+    public void test_best_of_9_76_97_60() {
+        System.out.println(Arrays.toString(findBestSequence(9, 76, 97, 60)));
+    }
+
+    int[] findBestSequence(int... nums_) {
+        List<Integer> nums = IntStream.of(nums_).boxed().collect(Collectors.toList());
+        List<List<Integer>> all = new ArrayList<>();
+
+        Queue<List<Integer>> perms = new LinkedList<>();
+        Queue<List<Integer>> choices = new LinkedList<>();
+        perms.add(Collections.emptyList());
+        choices.add(nums);
+
+        while (!perms.isEmpty()) {
+            List<Integer> perm = perms.poll();
+            List<Integer> ch = choices.poll();
+            if (ch.isEmpty()) {
+                all.add(perm);
+                continue;
+            }
+            for (int choice : ch) {
+                List<Integer> permCopy = new ArrayList<>(perm);
+                List<Integer> chCopy = new ArrayList<>(ch);
+                permCopy.add(choice);
+                perms.add(permCopy);
+                chCopy.remove((Integer) choice);
+                choices.add(chCopy);
+            }
+        }
+        int[] x = nums.stream().mapToInt(i -> i).toArray();
+        int[] best = null;
+        int max = 0;
+        for (List<Integer> list : all) {
+            int[] arr = list.stream().mapToInt(i -> i).toArray();
+            int val = compute(x, arr);
+            if (val > max) {
+                max = val;
+                best = arr;
+            }
+        }
+        return best;
+    }
+
+//    @Test
+    public void test_() {
+//        System.out.println(compute2(new int[]{5, 4, 3, 4, 3, 4, 5}, 5, 1, 4, 2, 3, 0, 6));
+//        System.out.println(compute(new int[]{9, 76, 64, 21, 97, 60}, 21, 64, 97, 76, 9, 60));
+//        System.out.println(Arrays.toString(findBestSequence(2, 4, 6, 5, 3)));
+        System.out.println(Arrays.toString(findBestSequence(3, 5, 6, 4, 2)));
+//        System.out.println(Arrays.toString(findBestSequence(4, 6, 7, 5, 3)));
+//        System.out.println(Arrays.toString(findBestSequence(5, 7, 8, 6, 4)));
+//        System.out.println(Arrays.toString(findBestSequence(6, 8, 9, 7, 5)));
+//        System.out.println(Arrays.toString(findBestSequence(7, 9, 10, 8, 6)));
+//        System.out.println(Arrays.toString(findBestSequence(8, 10, 11, 9, 7)));
+//        System.out.println(Arrays.toString(findBestSequence(9, 11, 12, 10, 8)));
+//        System.out.println(Arrays.toString(findBestSequence(10, 12, 13, 11, 9)));
+//        System.out.println(Arrays.toString(findBestSequence(11, 13, 14, 12, 10)));
+        System.out.println(Arrays.toString(findBestSequence(13, 15, 16, 14, 12)));
+//        System.out.println(Arrays.toString(findBestSequence(2, 4, 6, 7, 5, 3)));
+//        System.out.println(Arrays.toString(findBestSequence(2, 4, 6, 5, 3, 7)));
+//        System.out.println(Arrays.toString(findBestSequence(6, 2, 4, 5, 3, 7)));
+//        System.out.println(compute(new int[]{6, 2, 4, 5, 3, 7}, 2, 4, 3, 5, 6, 7));
+//        System.out.println(compute(new int[]{6, 2, 4, 5, 3, 7}, 2, 3, 4, 5, 6, 7));
+//        System.out.println(Arrays.toString(findBestSequence(4, 5, 6, 7, 3, 2)));
+//        System.out.println(Arrays.toString(findBestSequence(4, 6, 7, 8, 3, 2, 5)));
+        System.out.println(Arrays.toString(findBestSequence(5, 7, 8, 9, 2, 3, 6, 4)));
+//        System.out.println(compute(new int[]{5, 7, 8, 9, 2, 3, 6, 4}, 8, 7, 2, 3, 6, 9, 4, 5));
+//        System.out.println(compute(new int[]{5, 7, 8, 9, 2, 3, 6, 4}, 8, 2, 3, 9, 7, 6, 4, 5));
+//        System.out.println(Arrays.toString(findBestSequence(5, 1, 7, 8, 9, 2, 3, 6, 4)));
+//        System.out.println(Arrays.toString(findBestSequence(5, 8, 9, 7, 2, 3, 6, 4)));
+        System.out.println(Arrays.toString(findBestSequence(5, 7, 9, 6, 4)));
+        System.out.println(compute(new int[]{3, 5, 6, 4, 2}, 5, 4, 6, 2, 3));
+        System.out.println(compute(new int[]{3, 5, 6, 4, 2}, 6, 5, 4, 2, 3));
+        System.out.println(Arrays.toString(findBestSequence(15, 25, 30, 20, 10)));
+    }
+
+    @Test
+    public void test_25_of_70() {
+        assertThat(solve(7, 9, 8, 0, 7, 1, 3, 5, 5, 2, 3, 3)).isEqualTo(1717);
+    }
+
+    @Test
+    public void test_31_of_70() {
+        assertThat(solve(8, 2, 6, 8, 9, 8, 1, 4, 1, 5, 3, 0, 7, 7, 0, 4, 2, 2)).isEqualTo(3446);
     }
 }

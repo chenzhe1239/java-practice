@@ -1,90 +1,79 @@
 package com.janosgyerik.practice.oj.leetcode.hard.BurstBalloons;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
+// fails with TLE on test case 31 of 70
 public class Solution {
     static class Balloons {
+        static class Node<T> {
+            Node<T> prev, next;
+            final T value;
 
-        static class Balloon {
-            Balloon right;
-            Balloon left;
-            final int value;
-            int order;
-
-            Balloon(int value) {
+            Node(T value) {
                 this.value = value;
-                this.order = value;
-            }
-
-            static Balloon createEdge() {
-                return new Balloon(1);
             }
         }
 
-        private final PriorityQueue<Balloon> heap;
-
-        public Balloons(int[] nums) {
-            heap = new PriorityQueue<>(nums.length, (a, b) -> Integer.compare(a.order, b.order));
-
-            Balloon first = Balloon.createEdge();
-            Balloon prev = first;
-
+        public int findMax(int[] nums) {
+            Node<Integer> dummy = new Node<>(1);
+            Node<Integer> prev = dummy;
             for (int num : nums) {
-                Balloon current = new Balloon(num);
-                heap.add(current);
-
-                current.left = prev;
-                prev.right = current;
-
-                prev = current;
+                if (num == 0) continue;
+                prev.next = new Node<>(num);
+                prev.next.prev = prev;
+                prev = prev.next;
             }
-
-            Balloon last = Balloon.createEdge();
-            last.left = prev;
-            prev.right = last;
-
-
-            last.left.order = Integer.MAX_VALUE;
-            heap.remove(last.left);
-            heap.add(last.left);
-
-            first.right.order = Integer.MAX_VALUE;
-            heap.remove(first.right);
-            heap.add(first.right);
+            return findMax(dummy);
         }
 
-        public boolean isEmpty() {
-            return heap.isEmpty();
+        private final Map<String, Integer> solutions = new HashMap<>();
+
+        private String toString(Node<Integer> dummy) {
+            StringBuilder sb = new StringBuilder();
+            for (Node<Integer> node = dummy.next; node != null; node = node.next) {
+                sb.append(node.value).append(':');
+            }
+            return sb.toString();
         }
 
-        public int burstNext() {
-            if (heap.size() < 3) {
-                Balloon first = heap.poll();
-                if (heap.isEmpty()) {
-                    return first.value;
-                }
-                Balloon second = heap.poll();
-                return first.value * second.value + Math.max(first.value, second.value);
+        private int findMax(Node<Integer> dummy) {
+            String key = toString(dummy);
+            Integer solution = solutions.get(key);
+            if (solution != null) {
+                return solution;
             }
-            Balloon min = heap.poll();
-            int coins = min.left.value * min.value * min.right.value;
-            min.right.left = min.left;
-            min.left.right = min.right;
-            return coins;
+
+            int max = 0;
+            for (Node<Integer> node = dummy.next; node != null; node = node.next) {
+                max = Math.max(max, findMax(dummy, node));
+            }
+            solutions.put(key, max);
+            return max;
+        }
+
+        private int findMax(Node<Integer> dummy, Node<Integer> node) {
+            int score = node.value;
+            if (node.prev != null) {
+                score *= node.prev.value;
+            }
+            if (node.next != null) {
+                score *= node.next.value;
+            }
+
+            Node<Integer> prev = node.prev;
+            Node<Integer> next = node.next;
+            if (prev != null) prev.next = next;
+            if (next != null) next.prev = prev;
+            score += findMax(dummy);
+            if (prev != null) prev.next = node;
+            if (next != null) next.prev = node;
+
+            return score;
         }
     }
 
     public int maxCoins(int[] nums) {
-        if (nums.length == 0) {
-            return 0;
-        }
-
-        int coins = 0;
-        Balloons balloons = new Balloons(nums);
-        while (!balloons.isEmpty()) {
-            coins += balloons.burstNext();
-        }
-
-        return coins;
+        return new Balloons().findMax(nums);
     }
 }
