@@ -54,20 +54,29 @@ public class Solution {
 
         private int findMax(Node<Integer> dummy, Node<Integer> node) {
             int score = node.value;
-            if (node.prev != null) {
-                score *= node.prev.value;
-            }
-            if (node.next != null) {
-                score *= node.next.value;
-            }
 
             Node<Integer> prev = node.prev;
             Node<Integer> next = node.next;
-            if (prev != null) prev.next = next;
-            if (next != null) next.prev = prev;
-            score += findMax(dummy);
-            if (prev != null) prev.next = node;
-            if (next != null) next.prev = node;
+
+            if (prev != null && next != null) {
+                score *= node.prev.value;
+                score *= node.next.value;
+                prev.next = next;
+                next.prev = prev;
+                score += findMax(dummy);
+                prev.next = node;
+                next.prev = node;
+            } else if (prev != null) {
+                score *= node.prev.value;
+                prev.next = null;
+                score += findMax(dummy);
+                prev.next = node;
+            } else if (next != null) {
+                score *= node.next.value;
+                next.prev = null;
+                score += findMax(dummy);
+                next.prev = node;
+            }
 
             return score;
         }
