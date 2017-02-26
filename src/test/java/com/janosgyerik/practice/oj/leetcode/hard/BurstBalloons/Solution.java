@@ -3,7 +3,7 @@ package com.janosgyerik.practice.oj.leetcode.hard.BurstBalloons;
 import java.util.HashMap;
 import java.util.Map;
 
-// fails with TLE on test case 31 of 70
+// fails with TLE on test case 34 of 70
 public class Solution {
     static class Balloons {
         static class Node<T> {
@@ -46,7 +46,9 @@ public class Solution {
 
             int max = 0;
             for (Node<Integer> node = dummy.next; node != null; node = node.next) {
-                max = Math.max(max, findMax(dummy, node));
+                if (!(node.value.equals(node.prev.value) && node.next != null && node.next.value.equals(node.value))) {
+                    max = Math.max(max, findMax(dummy, node));
+                }
             }
             solutions.put(key, max);
             return max;

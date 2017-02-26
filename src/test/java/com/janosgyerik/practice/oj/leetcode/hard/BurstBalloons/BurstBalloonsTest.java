@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -15,6 +16,11 @@ public class BurstBalloonsTest {
 
     private int solve(int... nums) {
         return solution.maxCoins(nums);
+    }
+
+    private int solve(String s) {
+        int[] arr = Stream.of(s.replaceAll("[^0-9,]", "").split(",")).mapToInt(Integer::parseInt).toArray();
+        return solve(arr);
     }
 
     @Test
@@ -160,11 +166,6 @@ public class BurstBalloonsTest {
         }
     }
 
-    @Test
-    public void test_best_of_9_76_97_60() {
-        System.out.println(Arrays.toString(findBestSequence(9, 76, 97, 60)));
-    }
-
     int[] findBestSequence(int... nums_) {
         List<Integer> nums = IntStream.of(nums_).boxed().collect(Collectors.toList());
         List<List<Integer>> all = new ArrayList<>();
@@ -238,12 +239,22 @@ public class BurstBalloonsTest {
     }
 
     @Test
-    public void test_25_of_70() {
+    public void test_25() {
         assertThat(solve(7, 9, 8, 0, 7, 1, 3, 5, 5, 2, 3, 3)).isEqualTo(1717);
     }
 
     @Test
-    public void test_31_of_70() {
+    public void test_31() {
         assertThat(solve(8, 2, 6, 8, 9, 8, 1, 4, 1, 5, 3, 0, 7, 7, 0, 4, 2, 2)).isEqualTo(3446);
+    }
+
+    @Test
+    public void test_33() {
+        assertThat(solve("[8,2,6,8,9,8,1,4,1,5,3,0,7,7,0,4,2,2,5,5]")).isEqualTo(3830);
+    }
+
+    @Test
+    public void test_34() {
+        assertThat(solve("[8,3,4,3,5,0,5,6,6,2,8,5,6,2,3,8,3,5,1,0,2]")).isEqualTo(3266);
     }
 }
