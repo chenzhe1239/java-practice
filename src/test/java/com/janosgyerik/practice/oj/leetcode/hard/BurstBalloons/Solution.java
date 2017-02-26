@@ -46,9 +46,7 @@ public class Solution {
 
             int max = 0;
             for (Node<Integer> node = dummy.next; node != null; node = node.next) {
-                if (!(node.value.equals(node.prev.value) && node.next != null && node.next.value.equals(node.value))) {
-                    max = Math.max(max, findMax(dummy, node));
-                }
+                max = Math.max(max, findMax(dummy, node));
             }
             solutions.put(key, max);
             return max;

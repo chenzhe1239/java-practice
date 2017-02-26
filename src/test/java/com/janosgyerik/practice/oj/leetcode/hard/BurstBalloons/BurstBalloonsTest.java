@@ -255,6 +255,6 @@ public class BurstBalloonsTest {
 
     @Test
     public void test_34() {
-        assertThat(solve("[8,3,4,3,5,0,5,6,6,2,8,5,6,2,3,8,3,5,1,0,2]")).isEqualTo(3266);
+        assertThat(solve("[8,3,4,3,5,0,5,6,6,2,8,5,6,2,3,8,3,5,1,0,2]")).isEqualTo(3394);
     }
 }
