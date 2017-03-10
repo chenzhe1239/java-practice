@@ -13,6 +13,11 @@ public class RemoveDuplicateLettersTest {
     }
 
     @Test
+    public void test_empty() {
+        assertThat(solve("")).isEqualTo("");
+    }
+
+    @Test
     public void test_bcabc() {
         assertThat(solve("bcabc")).isEqualTo("abc");
     }

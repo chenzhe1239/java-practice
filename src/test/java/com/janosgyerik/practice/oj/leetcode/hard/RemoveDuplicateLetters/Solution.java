@@ -4,64 +4,42 @@ import java.util.*;
 
 public class Solution {
 
-    // TLE on 270 / 286
-
     public String removeDuplicateLetters(String s) {
-        if (s.isEmpty()) return s;
-
-        char[] chars = simplify(s.toCharArray());
-        Map<Character, List<Integer>> posmap = buildPosMap(chars);
-        return removeDuplicateLetters(chars, posmap, 'a');
+        return removeDuplicateLetters(buildPosMap(s.toCharArray()));
     }
 
-    char[] simplify(char[] chars) {
+    private String removeDuplicateLetters(SortedMap<Character, List<Integer>> posmap) {
+        StringBuilder sb = new StringBuilder();
         int pos = 0;
-        for (int i = 1; i < chars.length; i++) {
-            if (chars[pos] == chars[i]) {
-                chars[i] = '\0';
-            } else {
-                pos = i;
+        while (!posmap.isEmpty()) {
+            for (Map.Entry<Character, List<Integer>> entry : posmap.entrySet()) {
+                char c = entry.getKey();
+                List<Integer> poslist = entry.getValue();
+                int index = index(poslist, pos);
+                int nextPos = poslist.get(index);
+                if (index < poslist.size() && allExistAfterPos(posmap, nextPos)) {
+                    sb.append(c);
+                    posmap.remove(c);
+                    pos = nextPos;
+                    break;
+                }
             }
         }
-        return chars;
+        return sb.toString();
     }
 
-    public String removeDuplicateLetters(char[] chars, Map<Character, List<Integer>> posmap, char c) {
-        if (c > 'z') {
-            return toString(chars);
-        }
-
-        char next = (char) (c + 1);
-
-        List<Integer> list = posmap.get(c);
-        if (list == null || list.size() == 1) return removeDuplicateLetters(chars, posmap, next);
-
-        clearChars(chars, list);
-        return list.stream().map(pos -> {
-            chars[pos] = c;
-            String result = removeDuplicateLetters(chars, posmap, next);
-            chars[pos] = '\0';
-            return result;
-        }).min(String::compareTo).get();
+    private boolean allExistAfterPos(SortedMap<Character, List<Integer>> posmap, int pos) {
+        return posmap.values().stream().allMatch(list -> list.get(list.size() - 1) >= pos);
     }
 
-    void clearChars(char[] chars, List<Integer> list) {
-        for (int p : list) chars[p] = '\0';
+    private int index(List<Integer> poslist, int pos) {
+        int ret = Collections.binarySearch(poslist, pos);
+        if (ret >= 0) return ret;
+        return -1 - ret;
     }
 
-    String toString(char[] chars) {
-        char[] copy = new char[chars.length];
-        int pos = 0;
-        for (char c : chars) {
-            if (c != '\0') {
-                copy[pos++] = c;
-            }
-        }
-        return new String(Arrays.copyOf(copy, pos));
-    }
-
-    Map<Character, List<Integer>> buildPosMap(char[] chars) {
-        Map<Character, List<Integer>> posmap = new HashMap<>();
+    SortedMap<Character, List<Integer>> buildPosMap(char[] chars) {
+        SortedMap<Character, List<Integer>> posmap = new TreeMap<>();
         for (int i = 0; i < chars.length; i++) {
             char c = chars[i];
             if (c == '\0') continue;
