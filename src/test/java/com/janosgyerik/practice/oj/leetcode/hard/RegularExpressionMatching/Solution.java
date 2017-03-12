@@ -1,39 +1,56 @@
 package com.janosgyerik.practice.oj.leetcode.hard.RegularExpressionMatching;
 
 public class Solution {
-    // incorrect result at 373 / 445
-    public boolean isMatch(String s, String p) {
-        p = simplify(p);
-
-        int sIndex = 0;
-        int pIndex = 0;
-
-        while (sIndex < s.length() && pIndex < p.length()) {
-            char target = p.charAt(pIndex);
-
-            if (pIndex < p.length() - 1 && p.charAt(pIndex + 1) == '*') {
-                pIndex += 2;
-                if (target == '.') {
-                    return pIndex == p.length();
-                }
-                while (sIndex < s.length() && s.charAt(sIndex) == target) {
-                    ++sIndex;
-                }
-                continue;
-            }
-
-            if (target != '.') {
-                if (s.charAt(sIndex) != target) {
-                    return false;
-                }
-            }
-            ++sIndex;
-            ++pIndex;
-        }
-        return sIndex == s.length() && pIndex == p.length();
+    public boolean isMatch(String input, String pattern) {
+        return isMatch(input, pattern, 0, 0);
     }
 
-    private String simplify(String p) {
-        return p.replaceAll("(.)\\*(\\1)", "$1$1*");
+    public boolean isMatch(String input, String pattern, int i, int pi) {
+        if (i == input.length()) return allZeroWidth(pattern, pi);
+        if (pi == pattern.length()) return false;
+
+        while (i < input.length() && pi < pattern.length()) {
+            char ci = input.charAt(i);
+            char cp = pattern.charAt(pi);
+
+            if (pi + 1 < pattern.length()) {
+                char cp2 = pattern.charAt(pi + 1);
+                if (cp2 == '*') {
+                    if (cp == '.') {
+                        for (; i <= input.length(); i++) {
+                            if (isMatch(input, pattern, i, pi + 2)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    } else {
+                        for (; i < input.length() && input.charAt(i) == cp; i++) {
+                            if (isMatch(input, pattern, i, pi + 2)) {
+                                return true;
+                            }
+                        }
+                        pi += 2;
+                        continue;
+                    }
+                }
+            }
+
+            if (ci != cp && cp != '.') return false;
+            i++;
+            pi++;
+        }
+        return isMatch(input, pattern, i, pi);
+    }
+
+    private boolean allZeroWidth(String pattern, int start) {
+        if ((pattern.length() - start) % 2 != 0) {
+            return false;
+        }
+        for (int i = start; i + 1 < pattern.length(); i += 2) {
+            if (pattern.charAt(i + 1) != '*') {
+                return false;
+            }
+        }
+        return true;
     }
 }
