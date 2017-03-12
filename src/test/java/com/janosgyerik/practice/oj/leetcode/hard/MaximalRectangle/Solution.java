@@ -1,75 +1,116 @@
 package com.janosgyerik.practice.oj.leetcode.hard.MaximalRectangle;
 
-import java.util.LinkedList;
-import java.util.Optional;
-import java.util.Queue;
+import java.util.*;
 
-// TODO time limit exceeded on test case 63/66
 public class Solution {
+    static class Interval {
+        final int start, end;
+
+        Interval(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
+
+        public boolean intersect(Interval other) {
+            return Math.max(start, other.start) < Math.min(end, other.end);
+        }
+
+        public Interval intersection(Interval next) {
+            return new Interval(Math.max(start, next.start), Math.min(end, next.end));
+        }
+
+        public boolean isEmpty() {
+            return start < end;
+        }
+
+        public int length() {
+            return end - start;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            Interval other = (Interval) obj;
+            return start == other.start && end == other.end;
+        }
+    }
+
+    static class Intersector {
+        private List<Interval> intervals = Collections.emptyList();
+
+        public int add(List<Interval> intervals) {
+            if (this.intervals.isEmpty()) {
+                this.intervals = intervals;
+                return intervals.stream().mapToInt(Interval::length).max().orElse(0);
+            }
+
+            int longest = 0;
+            List<Interval> copy = this.intervals;
+            this.intervals = new ArrayList<>();
+            for (Interval i1 : copy) {
+                for (Interval i2 : intervals) {
+                    if (i1.intersect(i2)) {
+                        Interval intersection = i1.intersection(i2);
+                        this.intervals.add(intersection);
+                        longest = Math.max(longest, intersection.length());
+                    }
+                }
+            }
+            return longest;
+        }
+
+        public boolean isEmpty() {
+            return intervals.isEmpty();
+        }
+    }
+
     public int maximalRectangle(char[][] matrix) {
-        Queue<Rectangle> queue = initQueue(matrix);
+        List<List<Interval>> intervals = intervals(matrix);
 
         int max = 0;
-        while (!queue.isEmpty()) {
-            Rectangle rectangle = queue.poll();
-            max = Math.max(max, rectangle.width * rectangle.height);
-            rectangle.expandRight().map(queue::add);
-            rectangle.expandDown().map(queue::add);
+        for (int i = 0; i < intervals.size(); i++) {
+            Intersector intersector = new Intersector();
+            for (int j = i; j < intervals.size(); j++) {
+                int longest = intersector.add(intervals.get(j));
+                int height = j - i + 1;
+                max = Math.max(max, longest * height);
+                if (intersector.isEmpty()) {
+                    break;
+                }
+            }
         }
+
         return max;
     }
 
-    private Queue<Rectangle> initQueue(char[][] matrix) {
-        Queue<Rectangle> queue = new LinkedList<>();
-        for (int row = 0; row < matrix.length; row++) {
-            for (int col = 0; col < matrix[row].length; col++) {
-                if (isSet(matrix, col, row)) {
-                    queue.add(new Rectangle(matrix, col, row, 1, 1));
-                }
-            }
+    private List<List<Interval>> intervals(char[][] matrix) {
+        List<List<Interval>> intervals = new ArrayList<>();
+        for (char[] row : matrix) {
+            intervals.add(intervals(row));
         }
-        return queue;
+        return intervals;
     }
 
-    static class Rectangle {
-        final char[][] matrix;
-        final int left;
-        final int top;
-        final int width;
-        final int height;
-
-        Rectangle(char[][] matrix, int left, int top, int width, int height) {
-            this.matrix = matrix;
-            this.left = left;
-            this.top = top;
-            this.width = width;
-            this.height = height;
-        }
-
-        Optional<Rectangle> expandRight() {
-            for (int i = top; i < top + height; i++) {
-                if (!isSet(left + width, i)) {
-                    return Optional.empty();
+    static List<Interval> intervals(char[] row) {
+        List<Interval> intervals = new ArrayList<>();
+        int start = 0, end = 0, pos = 0;
+        for (char c : row) {
+            pos++;
+            if (c == '1') {
+                end++;
+            } else {
+                if (start < end) {
+                    intervals.add(interval(start, end));
                 }
+                start = end = pos;
             }
-            return Optional.of(new Rectangle(matrix, left, top, width + 1, height));
         }
-
-        Optional<Rectangle> expandDown() {
-            for (int i = left; i < left + width; i++) {
-                if (!isSet(i, top + height)) {
-                    return Optional.empty();
-                }
-            }
-            return Optional.of(new Rectangle(matrix, left, top, width, height + 1));
+        if (start < end) {
+            intervals.add(interval(start, end));
         }
-
-        boolean isSet(int col, int row) {
-            return Solution.isSet(matrix, col, row);
-        }
+        return intervals;
     }
 
-    static boolean isSet(char[][] grid, int col, int row) {
-        return !(col < 0 || row < 0 || grid[0].length <= col || grid.length <= row) && grid[row][col] == '1';
+    static Interval interval(int start, int end) {
+        return new Interval(start, end);
     }
 }
