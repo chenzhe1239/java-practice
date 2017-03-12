@@ -1,7 +1,10 @@
 package com.janosgyerik.practice.oj.leetcode.hard.RegularExpressionMatching;
 
 public class Solution {
+    // incorrect result at 373 / 445
     public boolean isMatch(String s, String p) {
+        p = simplify(p);
+
         int sIndex = 0;
         int pIndex = 0;
 
@@ -28,5 +31,9 @@ public class Solution {
             ++pIndex;
         }
         return sIndex == s.length() && pIndex == p.length();
+    }
+
+    private String simplify(String p) {
+        return p.replaceAll("(.)\\*(\\1)", "$1$1*");
     }
 }

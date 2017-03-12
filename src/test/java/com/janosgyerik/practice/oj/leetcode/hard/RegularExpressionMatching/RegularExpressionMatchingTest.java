@@ -58,8 +58,18 @@ public class RegularExpressionMatchingTest {
         assertFalse(solve("a", ""));
     }
 
-    //@Test
+    @Test
     public void test_aaa_astara_matches() {
         assertTrue(solve("aaa", "a*a"));
+    }
+
+    @Test
+    public void test_aaa_dotstardot_matches() {
+        assertTrue(solve("aaa", ".*."));
+    }
+
+    @Test
+    public void test_aaa_abstarastarcstara_matches() {
+        assertTrue(solve("aaa", "ab*a*c*a"));
     }
 }
