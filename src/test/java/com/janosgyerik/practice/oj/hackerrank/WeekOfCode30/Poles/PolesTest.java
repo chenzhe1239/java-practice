@@ -89,7 +89,13 @@ public class PolesTest {
         assertThat(compute(poles, 5)).isEqualTo(31789);
         assertThat(compute(poles, 6)).isEqualTo(21244);
         assertThat(compute(poles, 7)).isEqualTo(12514);
-        //assertThat(compute(poles, 8)).isEqualTo(7354);
+        assertThat(compute(poles, 8)).isEqualTo(7354);
+    }
+
+    @Test
+    public void test_my_example_3_v() {
+        List<Pole> poles = poles(new Random(1), 15).subList(0, 6);
+        assertThat(compute(poles, 2)).isEqualTo(7333);
     }
 
 //    @Test
