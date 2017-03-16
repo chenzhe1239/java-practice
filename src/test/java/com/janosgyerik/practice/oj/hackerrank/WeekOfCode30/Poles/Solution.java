@@ -11,6 +11,8 @@ public class Solution {
 
     // TLE for 3, 5, 7, 9, 10, 11 -> score = 16.67, #387 as of ~12:30
 
+    // TLE for 5, 10, 11 -> score = 27.78, #832 as of ~21:04
+
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
@@ -63,15 +65,19 @@ public class Solution {
         }
 
         public int computeMinCost(int k) {
+            return computeMinCost(k, 1);
+        }
+
+        private int computeMinCost(int k, int start) {
             if (k == 1) {
                 return computeCost();
             }
 
             int min = Integer.MAX_VALUE;
-            for (int i : new ArrayList<>(available)) {
+            for (int i = start; i < poles.size() - k + 2; i++) {
                 Pole pole = poles.get(i);
                 available.remove(pole.id);
-                min = Math.min(min, computeMinCost(k - 1));
+                min = Math.min(min, computeMinCost(k - 1, i + 1));
                 available.add(pole.id);
             }
             return min;

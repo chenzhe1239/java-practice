@@ -49,9 +49,15 @@ public class PolesTest {
     @Test
     public void test_example_2_2() {
         List<Pole> poles = poles(10, 15, 12, 17, 16, 18, 18, 13, 30, 10, 32, 1);
-//        assertThat(compute(poles, 1)).isEqualTo(468);
-//        assertThat(compute(poles, 2)).isEqualTo(216);
         assertThat(compute(poles, 3)).isEqualTo(62);
+    }
+
+    @Test
+    public void test_my_example_heavy_top() {
+        List<Pole> poles = poles(10, 15, 12, 17, 16, 18, 18, 13, 30, 10);
+        assertThat(compute(poles, 1)).isEqualTo(446);
+        poles.add(new Pole(poles.size(), 32, 10000));
+        assertThat(compute(poles, 2)).isEqualTo(446);
     }
 
     @Test
