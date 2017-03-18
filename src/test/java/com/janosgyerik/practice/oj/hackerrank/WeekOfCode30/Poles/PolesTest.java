@@ -4,9 +4,7 @@ import com.janosgyerik.practice.oj.hackerrank.WeekOfCode30.Poles.Solution.Alloca
 import com.janosgyerik.practice.oj.hackerrank.WeekOfCode30.Poles.Solution.Pole;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,7 +40,7 @@ public class PolesTest {
     @Test
     public void test_example_2() {
         List<Pole> poles = poles(10, 15, 12, 17, 16, 18, 18, 13, 30, 10, 32, 1);
-        assertThat(compute(poles, 1)).isEqualTo(468);
+//        assertThat(compute(poles, 1)).isEqualTo(468);
         assertThat(compute(poles, 2)).isEqualTo(216);
     }
 
@@ -50,6 +48,35 @@ public class PolesTest {
     public void test_example_2_2() {
         List<Pole> poles = poles(10, 15, 12, 17, 16, 18, 18, 13, 30, 10, 32, 1);
         assertThat(compute(poles, 3)).isEqualTo(62);
+    }
+
+    @Test
+    public void test_example_2_3() {
+        List<Pole> poles = poles(10, 15, 12, 17, 16, 18, 18, 13, 30, 10, 32, 1);
+        Collections.reverse(poles);
+        int[] alt = poles.stream().mapToInt(p -> p.altitude).toArray();
+        int[] wt = poles.stream().mapToInt(p -> p.weight).toArray();
+        int k = 5;
+        int[][] C = new int[k][alt.length];
+        for (int i = 0; i < alt.length; i++) {
+            C[0][i] = 0;
+            for (int j = 0; j < i; j++) {
+                C[0][i] += wt[j] * (alt[j] - alt[i]);
+            }
+        }
+        for (int cc = 1; cc < k; cc++) {
+            for (int j = cc; j < alt.length; j++) {
+                int min = Integer.MAX_VALUE;
+                for (int q = cc - 1; q < j; q++) {
+                    int cost = C[cc - 1][q];
+                    for (int qq = q + 1; qq < j; qq++) {
+                        cost += wt[qq] * (alt[qq] - alt[j]);
+                    }
+                    min = Math.min(min, cost);
+                }
+                C[cc][j] = min;
+            }
+        }
     }
 
     @Test

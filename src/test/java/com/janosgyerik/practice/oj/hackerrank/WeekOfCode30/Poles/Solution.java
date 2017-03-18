@@ -1,9 +1,6 @@
 package com.janosgyerik.practice.oj.hackerrank.WeekOfCode30.Poles;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -13,6 +10,51 @@ public class Solution {
 
     // TLE for 5, 10, 11 -> score = 27.78, #832 as of ~21:04
     // same with prefix sum optimization,  #900 as of ~22:31
+
+    /*
+    R solution, TLE for 11 -> score = 41.67, #490 as of ~23:45
+
+f <- file('stdin')
+open(f)
+
+numbers <- function(line) {
+    as.numeric(unlist(strsplit(line, ' ')))
+}
+read.line.as.numbers <- function() {
+    numbers(readLines(f, n=1, warn=F))
+}
+
+first <- read.line.as.numbers()
+n <- first[1]
+k <- first[2]
+
+alt <- c()
+wt <- c()
+for (i in 1:n) {
+    v <- read.line.as.numbers()
+    alt <- c(alt, v[1])
+    wt <- c(wt, v[2])
+}
+alt <- rev(alt)
+wt <- rev(wt)
+
+answer <- function() {
+    C <- matrix(NA, nrow=k, ncol=n)
+    C[1,] <- sapply(seq_len(n), function(i) sum(wt[1:i] * (alt[1:i] - alt[i])))
+    if (k < 2) {
+        return(C[1,n])
+    }
+    for (cc in 2:k) {
+        for (j in cc:n) {
+            C[cc,j] <- min(sapply((cc-1):(j-1), function(q) C[cc-1,q] + sum(wt[(q+1):j] * (alt[(q+1):j] - alt[j]))))
+        }
+    }
+    C[k,n]
+}
+
+write(answer(), stdout())
+
+     */
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -28,7 +70,7 @@ public class Solution {
     }
 
     static class Pole {
-        private final int id, altitude, weight;
+        final int id, altitude, weight;
 
         Pole(int id, int altitude, int weight) {
             this.id = id;
@@ -75,6 +117,41 @@ public class Solution {
         }
 
         public int computeMinCost(int k) {
+            List<Pole> copy = new ArrayList<>(poles);
+            Collections.reverse(copy);
+            int[] alt = copy.stream().mapToInt(p -> p.altitude).toArray();
+            int[] wt = copy.stream().mapToInt(p -> p.weight).toArray();
+            int[] sums = computePrefixSums(copy);
+
+            int[][] dp = new int[k][alt.length];
+            for (int i = 1; i < alt.length; i++) {
+                dp[0][i] = dp[0][i - 1] + (alt[i - 1] - alt[i]) * sums[i];
+//                for (int j = 0; j < i; j++) {
+//                    dp[0][i] += wt[j] * (alt[j] - alt[i]);
+//                }
+            }
+            for (int cc = 1; cc < k; cc++) {
+                for (int j = cc; j < alt.length; j++) {
+                    int min = Integer.MAX_VALUE;
+                    for (int q = cc - 1; q < j; q++) {
+                        int cost = dp[cc - 1][q];
+//                        if (q > 0) cost += dp[cc][q - 1];
+//                        cost += (alt[q] - alt[q + 1]) * (sums[j] - sums[q]);
+                        for (int qq = q + 1; qq < j; qq++) {
+                            cost += wt[qq] * (alt[qq] - alt[j]);
+                        }
+                        min = Math.min(min, cost);
+                    }
+                    dp[cc][j] = min;
+                }
+            }
+//            System.out.println(Arrays.toString(dp[1]));
+            // [0, 0, 2, 28, 152, 216]
+
+            return dp[k - 1][alt.length - 1];
+        }
+
+        public int computeMinCost2(int k) {
             int cost = 0;
             int base = poles.get(0).altitude;
             for (int i = 1; i < poles.size(); i++) {
