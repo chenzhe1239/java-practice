@@ -1,5 +1,6 @@
 package com.janosgyerik.practice.oj.gcj.y2017.qual;
 
+import org.assertj.core.api.IntegerAssert;
 import org.junit.*;
 
 import java.util.*;
@@ -12,7 +13,7 @@ public class BathroomStallsTest {
 
     Solver solver = new SkippingSolver(null);
 
-    Answer solve(int n, int k) {
+    Answer solve(long n, long k) {
         return solver.solve(new Input(n, k));
     }
 
@@ -114,5 +115,11 @@ public class BathroomStallsTest {
         MultiSolver msolver = new MultiSolver(solver);
         Inputs inputs = Inputs.parse(new Scanner(input));
         assertThat(msolver.solve(inputs)).isEqualTo(expected);
+    }
+
+    @Test
+    public void test_largest() {
+        long n = 1_000_000_000_000_000_000L;
+        assertThat(solve(n, n)).isEqualTo(new Answer(0, 0));
     }
 }

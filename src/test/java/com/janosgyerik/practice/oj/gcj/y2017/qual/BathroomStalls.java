@@ -7,10 +7,10 @@ import java.util.*;
 
 public class BathroomStalls {
     static class Answer {
-        final int max;
-        final int min;
+        final long max;
+        final long min;
 
-        Answer(int max, int min) {
+        Answer(long max, long min) {
             this.max = max;
             this.min = min;
         }
@@ -28,8 +28,8 @@ public class BathroomStalls {
 
         @Override
         public int hashCode() {
-            int result = max;
-            result = 31 * result + min;
+            int result = (int) (max ^ (max >>> 32));
+            result = 31 * result + (int) (min ^ (min >>> 32));
             return result;
         }
 
@@ -46,20 +46,20 @@ public class BathroomStalls {
 
         @Override
         public Answer solve(Input input) {
-            int N = input.n;
-            int K = input.k;
+            long N = input.n;
+            long K = input.k;
 
-            PriorityQueue<Integer> gaps = new PriorityQueue<>(Comparator.reverseOrder());
-            Map<Integer, Integer> counts = new HashMap<>();
+            PriorityQueue<Long> gaps = new PriorityQueue<>(Comparator.reverseOrder());
+            Map<Long, Integer> counts = new HashMap<>();
 
             gaps.add(N);
             counts.put(N, 1);
-            int max = N;
-            int min = N;
+            long max = N;
+            long min = N;
             for (int i = 0; i < K; ) {
-                int gap = gaps.poll();
+                long gap = gaps.poll();
 
-                int half = gap / 2;
+                long half = gap / 2;
                 max = half;
                 if (max == 0) {
                     min = 0;
@@ -105,8 +105,8 @@ public class BathroomStalls {
             int t = scanner.nextInt();
             List<Input> inputs = new ArrayList<>(t);
             for (int i = 0; i < t; i++) {
-                int n = scanner.nextInt();
-                int k = scanner.nextInt();
+                long n = scanner.nextLong();
+                long k = scanner.nextLong();
                 inputs.add(new Input(n, k));
             }
             return new Inputs(inputs);
@@ -122,10 +122,10 @@ public class BathroomStalls {
     }
 
     static class Input {
-        final int n;
-        final int k;
+        final long n;
+        final long k;
 
-        Input(int n, int k) {
+        Input(long n, long k) {
             this.n = n;
             this.k = k;
         }
