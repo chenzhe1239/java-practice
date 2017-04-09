@@ -6,6 +6,7 @@ import com.janosgyerik.practice.oj.gcj.y2017.qual.OversizedPancakeFlipper.Solver
 import org.junit.*;
 
 import java.util.BitSet;
+import java.util.Random;
 import java.util.Scanner;
 
 import static com.janosgyerik.practice.oj.gcj.y2017.qual.OversizedPancakeFlipper.bits;
@@ -72,6 +73,16 @@ public class OversizedPancakeFlipperTest {
         MultiSolver msolver = new MultiSolver(solver);
         Inputs inputs = Inputs.parse(new Scanner(input));
         assertThat(msolver.solve(inputs)).isEqualTo(expected);
+    }
+
+    //@Test
+    public void test_larger_data() {
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random(1);
+        for (int i = 0; i < 1000; i++) {
+            sb.append(random.nextBoolean() ? '+' : '-');
+        }
+        assertThat(solve(sb.toString(), 500)).isEqualTo("IMPOSSIBLE");
     }
 
 }
