@@ -62,6 +62,13 @@ public class Unicorns implements Problem {
             counts.put(Hair.ORANGE, input.orange);
             counts.put(Hair.VIOLET, input.violet);
 
+            // TODO will only work for small input, where there are no orange, violet, green
+            if (input.red + input.blue < input.yellow
+                    || input.red + input.yellow < input.blue
+                || input.blue + input.yellow < input.red) {
+                return () -> "IMPOSSIBLE";
+            }
+
             Tracker tracker = new Tracker(counts, input.stalls);
             if (tracker.canPlace()) {
                 return tracker.sb::toString;
@@ -95,10 +102,12 @@ public class Unicorns implements Problem {
                 return true;
             }
 
-            Collection<Hair> possible = getPossibleHairs();
+            List<Hair> possible = getPossibleHairs();
             if (possible.isEmpty()) {
                 return false;
             }
+
+            possible.sort((a, b) -> -Integer.compare(counts.get(a), counts.get(b)));
 
             for (Hair hair : possible) {
                 counts.dec(hair);
@@ -116,11 +125,11 @@ public class Unicorns implements Problem {
             return false;
         }
 
-        public Collection<Hair> getPossibleHairs() {
+        public List<Hair> getPossibleHairs() {
             if (first == null) {
                 return new ArrayList<>(counts.keys());
             }
-            Collection<Hair> possible = validNeighbors.get(last).stream().filter(counts::contains).collect(Collectors.toList());
+            List<Hair> possible = validNeighbors.get(last).stream().filter(counts::contains).collect(Collectors.toList());
 
             if (sb.length() + 1 == total) {
                 possible.retainAll(validNeighbors.get(first));
@@ -174,6 +183,10 @@ public class Unicorns implements Problem {
 
         public boolean contains(Hair hair) {
             return map.containsKey(hair);
+        }
+
+        public int get(Hair hair) {
+            return map.get(hair);
         }
     }
 }

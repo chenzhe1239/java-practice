@@ -11,7 +11,8 @@ import java.util.Scanner;
 public class Runner {
     public static void main(String[] args) throws IOException {
 //        String input = "unicorns.in";
-        String input = "B-small-attempt0.in";
+        String input = "B-small-practice.in";
+//        String input = "B-small-attempt0.in";
 //        String input = "A-large.in";
 //        String input = "C-small-2-attempt0.in";
         Problem problem = new Unicorns();
