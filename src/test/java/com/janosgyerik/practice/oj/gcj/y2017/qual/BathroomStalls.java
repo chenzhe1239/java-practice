@@ -1,16 +1,33 @@
 package com.janosgyerik.practice.oj.gcj.y2017.qual;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Paths;
+import com.janosgyerik.practice.oj.gcj.y2017.common.*;
+
 import java.util.*;
 
-public class BathroomStalls {
-    static class Answer {
+public class BathroomStalls implements Problem {
+    @Override
+    public Inputs inputs(Scanner scanner) {
+        Inputs inputs = new Inputs();
+
+        int t = scanner.nextInt();
+        for (int i = 0; i < t; i++) {
+            long n = scanner.nextLong();
+            long k = scanner.nextLong();
+            inputs.add(new BathroomStallsInput(n, k));
+        }
+        return inputs;
+    }
+
+    @Override
+    public Solver solver(Inputs inputs) {
+        return new SkippingSolver();
+    }
+
+    static class BathroomStallsAnswer implements Answer {
         final long max;
         final long min;
 
-        Answer(long max, long min) {
+        BathroomStallsAnswer(long max, long min) {
             this.max = max;
             this.min = min;
         }
@@ -20,7 +37,7 @@ public class BathroomStalls {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
-            Answer answer = (Answer) o;
+            BathroomStallsAnswer answer = (BathroomStallsAnswer) o;
 
             if (max != answer.max) return false;
             return min == answer.min;
@@ -37,15 +54,18 @@ public class BathroomStalls {
         public String toString() {
             return max + " " + min;
         }
+
+        @Override
+        public String value() {
+            return this.toString();
+        }
     }
 
     static class SkippingSolver implements Solver {
-        public SkippingSolver(Inputs inputs) {
-            // not used in this problem
-        }
-
         @Override
-        public Answer solve(Input input) {
+        public Answer solve(Input input0) {
+            BathroomStallsInput input = (BathroomStallsInput) input0;
+
             long N = input.n;
             long K = input.k;
 
@@ -86,78 +106,17 @@ public class BathroomStalls {
                     gaps.add(min);
                 }
             }
-            return new BathroomStalls.Answer(max, min);
+            return new BathroomStallsAnswer(max, min);
         }
     }
 
-    static class Inputs {
-        private final List<Input> inputs;
-
-        public Inputs(List<Input> inputs) {
-            this.inputs = inputs;
-        }
-
-        public static Inputs parse(String path) throws IOException {
-            return parse(new Scanner(Paths.get(path)));
-        }
-
-        public static Inputs parse(Scanner scanner) {
-            int t = scanner.nextInt();
-            List<Input> inputs = new ArrayList<>(t);
-            for (int i = 0; i < t; i++) {
-                long n = scanner.nextLong();
-                long k = scanner.nextLong();
-                inputs.add(new Input(n, k));
-            }
-            return new Inputs(inputs);
-        }
-
-        public int count() {
-            return inputs.size();
-        }
-
-        public Input get(int casenum) {
-            return inputs.get(casenum - 1);
-        }
-    }
-
-    static class Input {
+    static class BathroomStallsInput implements Input {
         final long n;
         final long k;
 
-        Input(long n, long k) {
+        BathroomStallsInput(long n, long k) {
             this.n = n;
             this.k = k;
-        }
-    }
-
-    interface Solver {
-        Answer solve(Input input);
-    }
-
-    static class MultiSolver {
-        private final Solver solver;
-
-        MultiSolver(Solver solver) {
-            this.solver = solver;
-        }
-
-        String solve(Inputs inputs) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 1; i <= inputs.count(); i++) {
-                Answer answer = solver.solve(inputs.get(i));
-                sb.append("Case #").append(i).append(": ").append(answer).append("\n");
-            }
-            return sb.toString();
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
-        Inputs inputs = Inputs.parse("/tmp/input.txt");
-        Solver solver = new SkippingSolver(inputs);
-
-        try (FileWriter writer = new FileWriter("/tmp/output.txt")) {
-            writer.write(new MultiSolver(solver).solve(inputs));
         }
     }
 }

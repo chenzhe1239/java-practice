@@ -1,66 +1,66 @@
 package com.janosgyerik.practice.oj.gcj.y2017.qual;
 
-import org.assertj.core.api.IntegerAssert;
+import com.janosgyerik.practice.oj.gcj.y2017.common.Answer;
+import com.janosgyerik.practice.oj.gcj.y2017.common.Solver;
 import org.junit.*;
 
 import java.util.*;
 
 import static com.janosgyerik.practice.oj.gcj.y2017.qual.BathroomStalls.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
 public class BathroomStallsTest {
 
-    Solver solver = new SkippingSolver(null);
+    Solver solver = new SkippingSolver();
 
     Answer solve(long n, long k) {
-        return solver.solve(new Input(n, k));
+        return solver.solve(new BathroomStallsInput(n, k));
     }
 
     @Test
     public void should_get_1_0_for_4_2() {
-        assertThat(solve(4, 2)).isEqualTo(new Answer(1, 0));
+        assertThat(solve(4, 2)).isEqualTo(new BathroomStallsAnswer(1, 0));
     }
 
     @Test
     public void should_get_1_0_for_5_2() {
-        assertThat(solve(5, 2)).isEqualTo(new Answer(1, 0));
+        assertThat(solve(5, 2)).isEqualTo(new BathroomStallsAnswer(1, 0));
     }
 
     @Test
     public void should_get_1_1_for_6_2() {
-        assertThat(solve(6, 2)).isEqualTo(new Answer(1, 1));
+        assertThat(solve(6, 2)).isEqualTo(new BathroomStallsAnswer(1, 1));
     }
 
     @Test
     public void should_get_0_0_for_1000_1000() {
-        assertThat(solve(1000, 1000)).isEqualTo(new Answer(0, 0));
+        assertThat(solve(1000, 1000)).isEqualTo(new BathroomStallsAnswer(0, 0));
     }
 
     @Test
     public void should_get_500_499_for_1000_1() {
-        assertThat(solve(1000, 1)).isEqualTo(new Answer(500, 499));
+        assertThat(solve(1000, 1)).isEqualTo(new BathroomStallsAnswer(500, 499));
     }
 
     @Test
     public void should_get_5000_4999_for_10000_1() {
-        assertThat(solve(10000, 1)).isEqualTo(new Answer(5000, 4999));
+        assertThat(solve(10000, 1)).isEqualTo(new BathroomStallsAnswer(5000, 4999));
     }
 
     @Test
     public void should_get_155_155_for_10000_50() {
-        assertThat(solve(10000, 50)).isEqualTo(new Answer(155, 155));
+        assertThat(solve(10000, 50)).isEqualTo(new BathroomStallsAnswer(155, 155));
     }
 
     @Test
     public void should_get_1_0_for_1000000_1000000_div_2() {
-        assertThat(solve(1000000, 1000000 / 2)).isEqualTo(new Answer(1, 0));
+        assertThat(solve(1000000, 1000000 / 2)).isEqualTo(new BathroomStallsAnswer(1, 0));
     }
 
     //@Test
     public void test_() {
         int N = 10000;
-        Answer prev = new Answer(0, 0);
+        Answer prev = new BathroomStallsAnswer(0, 0);
         for (int i = 1; i < N; i++) {
             Answer answer = solve(N, i);
             if (!answer.equals(prev)) {
@@ -98,28 +98,8 @@ public class BathroomStallsTest {
             "5905: Answer{max=0, min=0}\n";
 
     @Test
-    public void test_example() {
-        String input = "5\n" +
-                "4 2\n" +
-                "5 2\n" +
-                "6 2\n" +
-                "1000 1000\n" +
-                "1000 1";
-
-        String expected = "Case #1: 1 0\n" +
-                "Case #2: 1 0\n" +
-                "Case #3: 1 1\n" +
-                "Case #4: 0 0\n" +
-                "Case #5: 500 499\n";
-
-        MultiSolver msolver = new MultiSolver(solver);
-        Inputs inputs = Inputs.parse(new Scanner(input));
-        assertThat(msolver.solve(inputs)).isEqualTo(expected);
-    }
-
-    @Test
     public void test_largest() {
         long n = 1_000_000_000_000_000_000L;
-        assertThat(solve(n, n)).isEqualTo(new Answer(0, 0));
+        assertThat(solve(n, n)).isEqualTo(new BathroomStallsAnswer(0, 0));
     }
 }

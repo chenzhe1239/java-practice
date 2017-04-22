@@ -1,6 +1,6 @@
 package com.janosgyerik.practice.oj.gcj.y2017.common;
 
-import com.janosgyerik.practice.oj.gcj.y2017.qual.TidyNumbers;
+import com.janosgyerik.practice.oj.gcj.y2017.qual.BathroomStalls;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,8 +9,10 @@ import java.util.Scanner;
 
 public class Runner {
     public static void main(String[] args) throws IOException {
-        String input = "B-large.in";
-        Problem problem = new TidyNumbers();
+//        String input = "C-small-1-attempt0.in";
+//        String input = "C-small-2-attempt0.in";
+        String input = "C-large.in";
+        Problem problem = new BathroomStalls();
         boolean print = true;
 
         String basedir = "tmp/submit";
