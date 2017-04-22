@@ -1,6 +1,7 @@
 package com.janosgyerik.practice.oj.gcj.y2017.common;
 
 import com.janosgyerik.practice.oj.gcj.y2017.round1b.CruiseControl;
+import com.janosgyerik.practice.oj.gcj.y2017.round1b.Unicorns;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,11 +10,11 @@ import java.util.Scanner;
 
 public class Runner {
     public static void main(String[] args) throws IOException {
-//        String input = "A-small-attempt0.in";
-        String input = "A-large.in";
+//        String input = "unicorns.in";
+        String input = "B-small-attempt0.in";
+//        String input = "A-large.in";
 //        String input = "C-small-2-attempt0.in";
-//        String input = "dummy.in";
-        Problem problem = new CruiseControl();
+        Problem problem = new Unicorns();
         boolean print = true;
 
         String basedir = "tmp/submit";
