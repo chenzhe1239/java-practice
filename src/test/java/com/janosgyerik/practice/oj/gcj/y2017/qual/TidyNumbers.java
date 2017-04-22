@@ -1,12 +1,14 @@
 package com.janosgyerik.practice.oj.gcj.y2017.qual;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Paths;
+import com.janosgyerik.practice.oj.gcj.y2017.common.Input;
+import com.janosgyerik.practice.oj.gcj.y2017.common.Inputs;
+import com.janosgyerik.practice.oj.gcj.y2017.common.Problem;
+import com.janosgyerik.practice.oj.gcj.y2017.common.Solver;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class TidyNumbers {
+public class TidyNumbers implements Problem {
     String findLastTidy(String s) {
         char[] chars = s.toCharArray();
         int pos = findFirstUntidyPos(chars);
@@ -47,26 +49,29 @@ public class TidyNumbers {
         return new String(result);
     }
 
-    String solve(String input) {
-        return solve(new Scanner(input));
+    static class TidyNumbersInput implements Input {
+        private final String num;
+
+        TidyNumbersInput(String num) {
+            this.num = num;
+        }
     }
 
-    private String solve(Scanner scanner) {
+    @Override
+    public Inputs inputs(Scanner scanner) {
         int T = scanner.nextInt();
         scanner.nextLine();
-        StringBuilder sb = new StringBuilder();
+
+        Inputs inputs = new Inputs();
         for (int i = 1; i <= T; i++) {
             String num = scanner.nextLine();
-            sb.append("Case #").append(i).append(": ").append(findLastTidy(num)).append("\n");
+            inputs.add(new TidyNumbersInput(num));
         }
-        return sb.toString();
+        return inputs;
     }
 
-    public static void main(String[] args) throws IOException {
-        String answer = new TidyNumbers().solve(new Scanner(Paths.get("/tmp/input.txt")));
-        System.out.println(answer);
-        try (FileWriter writer = new FileWriter("/tmp/output.txt")) {
-            writer.write(answer);
-        }
+    @Override
+    public Solver solver(Inputs inputs) {
+        return input -> () -> findLastTidy(((TidyNumbersInput) input).num);
     }
 }

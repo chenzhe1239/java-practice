@@ -47,22 +47,6 @@ public class TidyNumbersTest {
     }
 
     @Test
-    public void should_match_example_output() {
-        String input = "4\n" +
-                "132\n" +
-                "1000\n" +
-                "7\n" +
-                "111111111111111110";
-
-        String expected = "Case #1: 129\n" +
-                "Case #2: 999\n" +
-                "Case #3: 7\n" +
-                "Case #4: 99999999999999999\n";
-
-        assertThat(tn.solve(input)).isEqualTo(expected);
-    }
-
-    @Test
     public void should_get_11_for_11() {
         assertThat(solve("11")).isEqualTo("11");
     }
