@@ -1,6 +1,6 @@
 package com.janosgyerik.practice.oj.gcj.y2017.common;
 
-import com.janosgyerik.practice.oj.gcj.y2017.qual.BathroomStalls;
+import com.janosgyerik.practice.oj.gcj.y2017.round1b.CruiseControl;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,10 +9,11 @@ import java.util.Scanner;
 
 public class Runner {
     public static void main(String[] args) throws IOException {
-//        String input = "C-small-1-attempt0.in";
+//        String input = "A-small-attempt0.in";
+        String input = "A-large.in";
 //        String input = "C-small-2-attempt0.in";
-        String input = "C-large.in";
-        Problem problem = new BathroomStalls();
+//        String input = "dummy.in";
+        Problem problem = new CruiseControl();
         boolean print = true;
 
         String basedir = "tmp/submit";
