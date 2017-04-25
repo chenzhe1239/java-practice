@@ -1,6 +1,6 @@
-package com.janosgyerik.practice.oj.gcj.y2017.round1b;
+package com.janosgyerik.practice.oj.codejam.codejam2017.round1b;
 
-import com.janosgyerik.practice.oj.gcj.y2017.common.*;
+import com.janosgyerik.practice.oj.codejam.codejam2017.common.*;
 
 import java.util.*;
 import java.util.stream.Collectors;

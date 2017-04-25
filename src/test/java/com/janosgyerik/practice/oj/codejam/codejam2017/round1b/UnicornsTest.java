@@ -1,4 +1,4 @@
-package com.janosgyerik.practice.oj.gcj.y2017.round1b;
+package com.janosgyerik.practice.oj.codejam.codejam2017.round1b;
 
 import org.junit.*;
 
@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
 public class UnicornsTest {
     @Test

@@ -1,4 +1,4 @@
-package com.janosgyerik.practice.oj.gcj.y2017.common;
+package com.janosgyerik.practice.oj.codejam.codejam2017.common;
 
 import java.util.ArrayList;
 import java.util.List;

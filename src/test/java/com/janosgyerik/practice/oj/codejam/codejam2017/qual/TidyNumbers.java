@@ -1,9 +1,9 @@
-package com.janosgyerik.practice.oj.gcj.y2017.qual;
+package com.janosgyerik.practice.oj.codejam.codejam2017.qual;
 
-import com.janosgyerik.practice.oj.gcj.y2017.common.Input;
-import com.janosgyerik.practice.oj.gcj.y2017.common.Inputs;
-import com.janosgyerik.practice.oj.gcj.y2017.common.Problem;
-import com.janosgyerik.practice.oj.gcj.y2017.common.Solver;
+import com.janosgyerik.practice.oj.codejam.codejam2017.common.Input;
+import com.janosgyerik.practice.oj.codejam.codejam2017.common.Inputs;
+import com.janosgyerik.practice.oj.codejam.codejam2017.common.Problem;
+import com.janosgyerik.practice.oj.codejam.codejam2017.common.Solver;
 
 import java.util.Arrays;
 import java.util.Scanner;

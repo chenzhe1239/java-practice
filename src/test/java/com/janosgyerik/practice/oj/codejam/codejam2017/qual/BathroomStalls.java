@@ -1,6 +1,6 @@
-package com.janosgyerik.practice.oj.gcj.y2017.qual;
+package com.janosgyerik.practice.oj.codejam.codejam2017.qual;
 
-import com.janosgyerik.practice.oj.gcj.y2017.common.*;
+import com.janosgyerik.practice.oj.codejam.codejam2017.common.*;
 
 import java.util.*;
 

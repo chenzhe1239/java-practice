@@ -1,7 +1,6 @@
-package com.janosgyerik.practice.oj.gcj.y2017.common;
+package com.janosgyerik.practice.oj.codejam.codejam2017.common;
 
-import com.janosgyerik.practice.oj.gcj.y2017.round1b.CruiseControl;
-import com.janosgyerik.practice.oj.gcj.y2017.round1b.Unicorns;
+import com.janosgyerik.practice.oj.codejam.codejam2017.round1b.Unicorns;
 
 import java.io.FileWriter;
 import java.io.IOException;

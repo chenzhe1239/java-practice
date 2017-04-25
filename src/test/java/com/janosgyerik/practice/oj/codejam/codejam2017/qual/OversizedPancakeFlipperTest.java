@@ -1,18 +1,17 @@
-package com.janosgyerik.practice.oj.gcj.y2017.qual;
+package com.janosgyerik.practice.oj.codejam.codejam2017.qual;
 
-import com.janosgyerik.practice.oj.gcj.y2017.qual.OversizedPancakeFlipper.Inputs;
-import com.janosgyerik.practice.oj.gcj.y2017.qual.OversizedPancakeFlipper.MultiSolver;
-import com.janosgyerik.practice.oj.gcj.y2017.qual.OversizedPancakeFlipper.Solver1.PossibleStartIterator;
+import com.janosgyerik.practice.oj.codejam.codejam2017.qual.OversizedPancakeFlipper.Inputs;
+import com.janosgyerik.practice.oj.codejam.codejam2017.qual.OversizedPancakeFlipper.MultiSolver;
+import com.janosgyerik.practice.oj.codejam.codejam2017.qual.OversizedPancakeFlipper.Solver1.PossibleStartIterator;
 import org.junit.*;
 
 import java.util.BitSet;
 import java.util.Random;
 import java.util.Scanner;
 
-import static com.janosgyerik.practice.oj.gcj.y2017.qual.OversizedPancakeFlipper.bits;
-import static com.janosgyerik.practice.oj.gcj.y2017.qual.OversizedPancakeFlipper.simplify;
+import static com.janosgyerik.practice.oj.codejam.codejam2017.qual.OversizedPancakeFlipper.bits;
+import static com.janosgyerik.practice.oj.codejam.codejam2017.qual.OversizedPancakeFlipper.simplify;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
 public class OversizedPancakeFlipperTest {
     OversizedPancakeFlipper.Solver solver = new OversizedPancakeFlipper.Solver1(null);
