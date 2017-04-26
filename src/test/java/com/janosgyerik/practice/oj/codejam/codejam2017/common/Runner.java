@@ -1,22 +1,27 @@
 package com.janosgyerik.practice.oj.codejam.codejam2017.common;
 
-import com.janosgyerik.practice.oj.codejam.codejam2017.round1b.Unicorns;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Runner {
-    public static void main(String[] args) throws IOException {
-//        String input = "unicorns.in";
-        String input = "B-small-practice.in";
-//        String input = "B-small-attempt0.in";
-//        String input = "A-large.in";
-//        String input = "C-small-2-attempt0.in";
-        Problem problem = new Unicorns();
-        boolean print = true;
 
+    private final Problem problem;
+
+    private Runner(Problem problem) {
+        this.problem = problem;
+    }
+
+    public static Runner create(Problem problem) {
+        return new Runner(problem);
+    }
+
+    public void run(String input) throws IOException {
+        run(input, true);
+    }
+
+    public void run(String input, boolean print) throws IOException {
         String basedir = "tmp/submit";
         Inputs inputs = problem.inputs(new Scanner(Paths.get(basedir).resolve(input)));
         Solver solver = problem.solver(inputs);
