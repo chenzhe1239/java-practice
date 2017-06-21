@@ -21,17 +21,19 @@ public class Runner {
         run(input, true);
     }
 
-    public void run(String input, boolean print) throws IOException {
+    public void run(String filename, boolean print) throws IOException {
         String basedir = "tmp/submit";
-        Inputs inputs = problem.inputs(new Scanner(Paths.get(basedir).resolve(input)));
+        Inputs inputs = problem.inputs(new Scanner(Paths.get(basedir).resolve(filename)));
         Solver solver = problem.solver(inputs);
 
-        try (FileWriter writer = new FileWriter(Paths.get(basedir).resolve(input + ".out").toFile())) {
+        try (FileWriter writer = new FileWriter(Paths.get(basedir).resolve(filename + ".out").toFile())) {
             StringBuilder sb = new StringBuilder();
 
             for (int i = 1; i <= inputs.count(); ++i) {
-                Answer answer = solver.solve(inputs.get(i));
+                Input input = inputs.get(i);
+                Answer answer = solver.solve(input);
                 sb.append("Case #").append(i).append(": ").append(answer.value()).append("\n");
+                problem.validate(input, answer);
                 writer.write(sb.toString());
                 if (print) System.out.print(sb);
                 sb.setLength(0);
