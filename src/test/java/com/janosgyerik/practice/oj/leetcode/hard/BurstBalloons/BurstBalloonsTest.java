@@ -2,7 +2,6 @@ package com.janosgyerik.practice.oj.leetcode.hard.BurstBalloons;
 
 import org.junit.Test;
 
-import java.sql.ResultSet;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -205,7 +204,7 @@ public class BurstBalloonsTest {
         return best;
     }
 
-//    @Test
+    //    @Test
     public void test_() {
 //        System.out.println(compute2(new int[]{5, 4, 3, 4, 3, 4, 5}, 5, 1, 4, 2, 3, 0, 6));
 //        System.out.println(compute(new int[]{9, 76, 64, 21, 97, 60}, 21, 64, 97, 76, 9, 60));
@@ -257,4 +256,14 @@ public class BurstBalloonsTest {
     public void test_34() {
         assertThat(solve("[8,3,4,3,5,0,5,6,6,2,8,5,6,2,3,8,3,5,1,0,2]")).isEqualTo(3394);
     }
+
+    //@Test
+    public void test_34_best() {
+        System.out.println(Arrays.toString(findBestSequence("[8,3,4,3,5,0,5,6,6,2,8,5,6,2,3,8,3,5,1,0,2]")));
+    }
+
+    private int[] findBestSequence(String s) {
+        return findBestSequence(Stream.of(s.substring(1, s.length() - 1).split(",")).filter(s2 -> !s2.equals("0")).mapToInt(Integer::parseInt).toArray());
+    }
+
 }
