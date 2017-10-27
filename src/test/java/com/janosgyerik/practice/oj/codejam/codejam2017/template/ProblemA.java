@@ -27,7 +27,7 @@ public class ProblemA implements Problem {
 
     @Override
     public Solver solver(Inputs inputs) {
-        return null;
+        return new ProblemASolver();
     }
 
     static class ProblemASolver implements Solver {
@@ -36,7 +36,7 @@ public class ProblemA implements Problem {
             ProblemAInput input = (ProblemAInput) input0;
 
             // TODO
-            return null;
+            return new ProblemAAnswer();
         }
     }
 

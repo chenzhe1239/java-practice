@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+// TODO add helper method to download input files, cached locally at a location derived
+// from pacakge name of the implementation.
+// It's a PITA to manually download the input file and move it to some location,
+// and then hardcode that location in the source code.
+// I want to be able to do things like .runSmall(print|submit)
 public class Runner {
 
     private final Problem problem;
