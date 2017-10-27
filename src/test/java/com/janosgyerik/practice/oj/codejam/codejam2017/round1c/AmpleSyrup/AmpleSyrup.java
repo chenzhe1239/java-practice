@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -84,6 +85,45 @@ public class AmpleSyrup implements Problem {
     }
 
     private static double findMaxSurface(AmpleSyrupInput input) {
+        return permutations(input).stream().mapToDouble(x -> {
+            return x.stream().mapToDouble(Pancake::top).max().getAsDouble() +
+                x.stream().mapToDouble(Pancake::side).sum();
+        }).max().getAsDouble();
+    }
+
+    // This ugly solution still produces incorrect result.
+    // Curiously, it produces different results, almost as if
+    // there is a precision error, but I don't see how that's possible...
+    //
+//        < Case #96: 1422430698337.0615
+//        ---
+//        > Case #96: 1422430696558.9202
+//        98c98
+//        < Case #98: 5640648151.164559
+//        ---
+//        > Case #98: 5640648151.164558
+    //
+    private static Collection<Collection<Pancake>> permutations(AmpleSyrupInput input) {
+        Collection<Collection<Pancake>> result = new ArrayList<>();
+        permutations(input.pancakes, input.k, Collections.emptyList(), result);
+        return result;
+    }
+
+    private static void permutations(List<Pancake> pancakes, int k, Collection<Pancake> current, Collection<Collection<Pancake>> result) {
+        if (k == 0) {
+            result.add(current);
+            return;
+        }
+        for (Pancake pancake : pancakes) {
+            List<Pancake> choices = new ArrayList<>(pancakes);
+            choices.remove(pancake);
+            List<Pancake> selected = new ArrayList<>(current);
+            selected.add(pancake);
+            permutations(choices, k - 1, selected, result);
+        }
+    }
+
+    private static double findMaxSurface2(AmpleSyrupInput input) {
         input.pancakes.sort(Collections.reverseOrder(comparingDouble(Pancake::side)));
         return input.pancakes.stream().mapToDouble(p -> calculateValueForPivot(input, p)).max().getAsDouble();
     }
@@ -114,7 +154,6 @@ public class AmpleSyrup implements Problem {
     public static void main(String[] args) throws IOException {
         Runner runner = Runner.create(new AmpleSyrup());
 //        runner.run("dummy.in", true);
-        // fails :(
         runner.run("A-small-practice.in", true);
     }
 }
