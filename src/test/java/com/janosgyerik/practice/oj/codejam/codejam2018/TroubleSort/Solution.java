@@ -1,7 +1,11 @@
 package com.janosgyerik.practice.oj.codejam.codejam2018.TroubleSort;
 
-import java.util.Arrays;
+import java.util.AbstractList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Solution {
     public static void main(String[] args) {
@@ -22,37 +26,44 @@ public class Solution {
     }
 
     int solve(int... nums) {
-        int[] even = extractSubArray(nums, 0);
-        int[] odd = extractSubArray(nums, 1);
-        Arrays.sort(even);
-        Arrays.sort(odd);
-        return findFirstUnsortedPos(even, odd);
+        List<Integer> list = IntStream.of(nums).boxed().collect(Collectors.toList());
+
+        Collections.sort(new SubArray(list, 0));
+        Collections.sort(new SubArray(list, 1));
+
+        return findFirstUnsortedPos(list);
     }
 
-    private int[] extractSubArray(int[] nums, int start) {
-        int[] sub = new int[nums.length / 2 + nums.length % 2];
-        for (int i = start; i < nums.length; i += 2) {
-            sub[i / 2] = nums[i];
+    static class SubArray extends AbstractList<Integer> {
+        private final List<Integer> list;
+        private final int start;
+        private final int size;
+
+        public SubArray(List<Integer> list, int start) {
+            this.list = list;
+            this.start = start;
+            this.size = list.size() / 2 + (start == 0 ? list.size() % 2: 0);
         }
-        if (nums.length % 2 == 1 && start == 1) {
-            sub[sub.length - 1] = Integer.MAX_VALUE;
+
+        @Override
+        public Integer get(int index) {
+            return list.get(start + index * 2);
         }
-        return sub;
+
+        @Override
+        public int size() {
+            return size;
+        }
+
+        @Override
+        public Integer set(int index, Integer element) {
+            return list.set(start + 2 * index, element);
+        }
     }
 
-    private int[] merge(int[] even, int[] odd) {
-        int[] merged = new int[even.length * 2];
-        for (int i = 0; i < even.length; i++) {
-            merged[2 * i] = even[i];
-            merged[2 * i + 1] = odd[i];
-        }
-        return merged;
-    }
-
-    private int findFirstUnsortedPos(int[] even, int[] odd) {
-        int[] merged = merge(even, odd);
-        for (int i = 1; i < merged.length; i++) {
-            if (merged[i - 1] > merged[i]) return i - 1;
+    private int findFirstUnsortedPos(List<Integer> list) {
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i - 1) > list.get(i)) return i - 1;
         }
         return -1;
     }
