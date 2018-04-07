@@ -1,12 +1,14 @@
 package com.janosgyerik.practice.oj.codejam.codejam2017.round1b;
 
-import com.janosgyerik.practice.oj.codejam.codejam2017.common.*;
-import com.sun.org.apache.regexp.internal.RE;
-import sun.jvm.hotspot.utilities.AssertionFailure;
-
+import com.janosgyerik.practice.oj.codejam.codejam2017.common.Answer;
+import com.janosgyerik.practice.oj.codejam.codejam2017.common.Input;
+import com.janosgyerik.practice.oj.codejam.codejam2017.common.Inputs;
+import com.janosgyerik.practice.oj.codejam.codejam2017.common.Problem;
+import com.janosgyerik.practice.oj.codejam.codejam2017.common.Runner;
+import com.janosgyerik.practice.oj.codejam.codejam2017.common.Solver;
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Iterator;
+import java.util.Scanner;
 import java.util.stream.IntStream;
 
 public class Unicorns implements Problem {
@@ -226,7 +228,7 @@ public class Unicorns implements Problem {
 
         String stalls = answer.value().substring(answer.value().indexOf(':') + 1);
         if (input.stalls != stalls.length()) {
-            throw new AssertionFailure(String.format("Got %d stalls, expected %d", stalls.length(), input.stalls));
+            throw new AssertionError(String.format("Got %d stalls, expected %d", stalls.length(), input.stalls));
         }
 
         for (int i = 0; i < stalls.length(); i++) {
