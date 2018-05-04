@@ -1,5 +1,6 @@
 package com.janosgyerik.practice.oj.codejam.codejam2018.RoundingError;
 
+import java.util.Arrays;
 import java.util.Scanner;
 import org.junit.Test;
 
@@ -24,28 +25,63 @@ public class SolutionTest {
         solution.solve(new Scanner(input));
     }
 
-//    @Ignore
     @Test
     public void test_3_2__1_1() {
         assertThat(solution.solve(3, 1, 1)).isEqualTo(100);
     }
 
-//    @Ignore
     @Test
     public void test_10_3__1_3_2() {
         assertThat(solution.solve(10, 1, 3, 2)).isEqualTo(100);
     }
 
-//    @Ignore
     @Test
     public void test_6_2__3_1() {
         assertThat(solution.solve(6, 3, 1)).isEqualTo(101);
     }
 
-//    @Ignore
     @Test
     public void test_9_8__1_1_1_1_1_1_1_1() {
         assertThat(solution.solve(9, 1, 1, 1, 1, 1, 1, 1, 1)).isEqualTo(99);
+    }
+
+    @Test
+    public void test_9_1__1() {
+        assertThat(solution.solve(9, 1)).isEqualTo(100);
+    }
+
+    @Test
+    public void test_9_2__1_1() {
+        assertThat(solution.solve(9, 1, 1)).isEqualTo(100);
+    }
+
+    @Test
+    public void test_7_1__1() {
+        assertThat(solution.solve(7, 1)).isEqualTo(101);
+    }
+
+    @Test
+    public void test_201_201() {
+        int[] votes = new int[201];
+        Arrays.fill(votes, 1);
+        assertThat(solution.solve(201, votes)).isEqualTo(0);
+    }
+
+    @Test
+    public void test_201_199() {
+        int[] votes = new int[199];
+        Arrays.fill(votes, 1);
+        assertThat(solution.solve(201, votes)).isEqualTo(2);
+    }
+
+    @Test
+    public void test_200_1__1() {
+        assertThat(solution.solve(200, 1)).isEqualTo(200);
+    }
+
+    @Test
+    public void test_201_1__1() {
+        assertThat(solution.solve(201, 1)).isEqualTo(100);
     }
 
     @Test
