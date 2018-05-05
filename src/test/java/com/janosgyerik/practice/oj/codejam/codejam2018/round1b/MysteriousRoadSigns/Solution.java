@@ -1,9 +1,8 @@
-package com.janosgyerik.practice.oj.codejam.codejam2018.MysteriousRoadSigns;
+package com.janosgyerik.practice.oj.codejam.codejam2018.round1b.MysteriousRoadSigns;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.stream.IntStream;

@@ -1,4 +1,4 @@
-package com.janosgyerik.practice.oj.codejam.codejam2018.RoundingError;
+package com.janosgyerik.practice.oj.codejam.codejam2018.round1b.RoundingError;
 
 import java.util.PriorityQueue;
 import java.util.Scanner;

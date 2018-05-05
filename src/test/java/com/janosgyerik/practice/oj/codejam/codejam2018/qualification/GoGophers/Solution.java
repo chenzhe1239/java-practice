@@ -1,4 +1,4 @@
-package com.janosgyerik.practice.oj.codejam.codejam2018.GoGophers;
+package com.janosgyerik.practice.oj.codejam.codejam2018.qualification.GoGophers;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -1,10 +1,9 @@
-package com.janosgyerik.practice.oj.codejam.codejam2018.SavingTheUniverseAgain;
+package com.janosgyerik.practice.oj.codejam.codejam2018.qualification.SavingTheUniverseAgain;
 
 import java.util.Scanner;
 import org.junit.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
 public class SolutionTest {
     Solution solution = new Solution();

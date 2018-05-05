@@ -1,11 +1,11 @@
-package com.janosgyerik.practice.oj.codejam.codejam2018.RoundingError;
+package com.janosgyerik.practice.oj.codejam.codejam2018.round1b.RoundingError;
 
 import java.util.Arrays;
 import java.util.Scanner;
 import org.junit.Test;
 
-import static com.janosgyerik.practice.oj.codejam.codejam2018.RoundingError.Solution.minVotesToRoundUp;
-import static com.janosgyerik.practice.oj.codejam.codejam2018.RoundingError.Solution.rounded;
+import static com.janosgyerik.practice.oj.codejam.codejam2018.round1b.RoundingError.Solution.minVotesToRoundUp;
+import static com.janosgyerik.practice.oj.codejam.codejam2018.round1b.RoundingError.Solution.rounded;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SolutionTest {

@@ -1,4 +1,4 @@
-package com.janosgyerik.practice.oj.codejam.codejam2018.MysteriousRoadSigns;
+package com.janosgyerik.practice.oj.codejam.codejam2018.round1b.MysteriousRoadSigns;
 
 import java.util.Scanner;
 import org.junit.Test;

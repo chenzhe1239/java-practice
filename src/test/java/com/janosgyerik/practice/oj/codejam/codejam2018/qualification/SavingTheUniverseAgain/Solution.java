@@ -1,4 +1,4 @@
-package com.janosgyerik.practice.oj.codejam.codejam2018.SavingTheUniverseAgain;
+package com.janosgyerik.practice.oj.codejam.codejam2018.qualification.SavingTheUniverseAgain;
 
 import java.util.Scanner;
 

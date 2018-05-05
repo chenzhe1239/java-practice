@@ -1,10 +1,9 @@
-package com.janosgyerik.practice.oj.codejam.codejam2018.CubicUFO;
+package com.janosgyerik.practice.oj.codejam.codejam2018.qualification.CubicUFO;
 
 import java.util.Scanner;
 import org.junit.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
 public class SolutionTest {
     @Test

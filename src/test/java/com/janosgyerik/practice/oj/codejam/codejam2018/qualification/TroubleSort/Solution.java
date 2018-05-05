@@ -1,4 +1,4 @@
-package com.janosgyerik.practice.oj.codejam.codejam2018.TroubleSort;
+package com.janosgyerik.practice.oj.codejam.codejam2018.qualification.TroubleSort;
 
 import java.util.AbstractList;
 import java.util.Collections;

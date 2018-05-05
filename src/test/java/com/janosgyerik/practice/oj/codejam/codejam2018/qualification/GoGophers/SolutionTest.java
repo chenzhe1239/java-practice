@@ -1,9 +1,8 @@
-package com.janosgyerik.practice.oj.codejam.codejam2018.GoGophers;
+package com.janosgyerik.practice.oj.codejam.codejam2018.qualification.GoGophers;
 
 import org.junit.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
 public class SolutionTest {
     @Test

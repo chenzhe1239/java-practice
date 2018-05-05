@@ -1,11 +1,9 @@
-package com.janosgyerik.practice.oj.codejam.codejam2018.TroubleSort;
+package com.janosgyerik.practice.oj.codejam.codejam2018.qualification.TroubleSort;
 
 import java.util.Scanner;
 import org.junit.*;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
 public class SolutionTest {
     Solution solution = new Solution();

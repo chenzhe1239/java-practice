@@ -1,4 +1,4 @@
-package com.janosgyerik.practice.oj.codejam.codejam2018.CubicUFO;
+package com.janosgyerik.practice.oj.codejam.codejam2018.qualification.CubicUFO;
 
 import java.util.Scanner;
 
