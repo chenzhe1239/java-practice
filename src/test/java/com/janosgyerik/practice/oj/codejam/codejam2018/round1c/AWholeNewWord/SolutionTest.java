@@ -46,7 +46,7 @@ public class SolutionTest {
     }
 
     @Test
-    public void test_1() {
+    public void test_3() {
         List<String> words = new ArrayList<>(Arrays.asList(
             "AAA",
             "AAB",
@@ -82,6 +82,11 @@ public class SolutionTest {
     }
 
     @Test
+    public void test_1() {
+        assertThat(solution.findNewWord(Arrays.asList("A"), 1)).isNull();
+    }
+
+    @Test
     public void test_brute() {
         Set<String> all = new HashSet<>();
         char[] chars = new char[2];
@@ -103,5 +108,4 @@ public class SolutionTest {
             assertThat(solution.findNewWord(list, 2)).isEqualTo(word);
         }
     }
-
 }

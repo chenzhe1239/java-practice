@@ -3,7 +3,6 @@ package com.janosgyerik.practice.oj.codejam.codejam2018.round1c.AWholeNewWord;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,31 +26,6 @@ public class Solution {
     }
 
     String findNewWord(List<String> words, int L) {
-        if (L == 1) return null;
-
-        Set<Character> chars1 = new HashSet<>();
-        Set<Character> chars2 = new HashSet<>();
-        words.forEach(word -> {
-            chars1.add(word.charAt(0));
-            chars2.add(word.charAt(1));
-        });
-
-        Set<String> known = new HashSet<>();
-        known.addAll(words);
-
-        char[] chars = new char[2];
-        for (char c1 : chars1) {
-            for (char c2 : chars2) {
-                chars[0] = c1;
-                chars[1] = c2;
-                String candidate = new String(chars);
-                if (!known.contains(candidate)) return candidate;
-            }
-        }
-        return null;
-    }
-
-    String findNewWord2(List<String> words, int L) {
         Stats stats = new Stats(words, L);
         if (!canFindNewWord(stats)) return null;
         return findNewWord(stats);
@@ -60,29 +34,23 @@ public class Solution {
     private String findNewWord(Stats stats) {
         char[] chars = start(stats);
 
-        PriorityQueue<Integer> indexes = new PriorityQueue<>((a, b) -> -Integer.compare(stats.chars.get(a).size(), stats.chars.get(b).size()));
-        indexes.addAll(IntStream.range(0, chars.length).boxed().collect(Collectors.toList()));
+        Set<String> known = new HashSet<>(stats.words);
 
-        Set<String> known = new HashSet<>();
-        known.addAll(stats.words);
-
-        return findNewWord(chars, indexes, stats, known);
+        return findNewWord(chars, 0, stats, known);
     }
 
-    private String findNewWord(char[] chars, PriorityQueue<Integer> indexes, Stats stats, Set<String> known) {
+    private String findNewWord(char[] chars, int index, Stats stats, Set<String> known) {
         String current = new String(chars);
         if (!known.contains(current)) {
             return current;
         }
-        if (indexes.isEmpty()) return null;
+        if (index == chars.length) return null;
 
-        int index = indexes.poll();
         for (Character c : stats.chars.get(index)) {
             chars[index] = c;
-            String next = findNewWord(chars, indexes, stats, known);
+            String next = findNewWord(chars, index + 1, stats, known);
             if (next != null) return next;
         }
-        indexes.add(index);
         return null;
     }
 
